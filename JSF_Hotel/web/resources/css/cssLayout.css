@@ -1,4 +1,17 @@
-
+.navbar{
+    background-color: #282828 !important;
+    border-bottom: 3px #0c0032 solid;
+    font-family: 'Dosis', sans-serif;
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 23px;
+    margin: 0 0 23px 0;
+    color: white;
+  
+}
+.nav-item{
+    padding-left: 10px;
+}
 #top {
     position: relative;
     background-color: #036fab;
@@ -9,17 +22,16 @@
 
 #bottom {
     position: relative;
-    background-color: #c2dfef;
+    background-color: #282828;
     padding: 5px;
     margin: 10px 0px 0px 0px;
+    top: 100%;
+    padding-bottom: 20px;
+    border-top: 3px #0c0032 solid;
+    align-content: center;
 }
 
-#left {
-    float: left;
-    background-color: #ece3a5;
-    padding: 5px;
-    width: 150px;
-}
+
 
 #right {
     float: right;
@@ -30,14 +42,17 @@
 
 .center_content {
     position: relative;
-    background-color: #dddddd;
+    background-color: #240090;
     padding: 5px;
 }
 
 .left_content {
-    background-color: #dddddd;
+    background-color: #282828;
     padding: 5px;
-    margin-left: 170px;
+    margin-left: 50px;
+    margin-right: 50px;
+    border: 2px #0c0032 solid;
+    border-radius: 10px;
 }
 
 .right_content {
