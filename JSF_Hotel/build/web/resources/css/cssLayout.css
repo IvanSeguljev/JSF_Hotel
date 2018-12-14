@@ -1,12 +1,13 @@
 .navbar{
     background-color: #282828 !important;
-    border-bottom: 3px #0c0032 solid;
+    border-bottom: 2px #0c0032 solid;
     font-family: 'Dosis', sans-serif;
     font-weight: 800;
     font-size: 18px;
     line-height: 23px;
     margin: 0 0 23px 0;
     color: white;
+    box-shadow: 0px 3px 5px black;
   
 }
 .nav-item{
@@ -46,13 +47,15 @@
     padding: 5px;
 }
 
-.left_content {
+.container{
     background-color: #282828;
     padding: 5px;
+    padding-bottom: 20px;
     margin-left: 50px;
     margin-right: 50px;
     border: 1px #0c0032 solid;
-    border-radius: 10px;
+    box-shadow: 3px 3px 5px black;
+    
 }
 
 .right_content {

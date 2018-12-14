@@ -12,12 +12,15 @@
         <h:outputScript name="scripts/jquery.min.js"/>
         <h:outputScript name="Bootstrap/js/bootstrap.js"/>
         
+        <link rel="shortcut icon" href="#{resource['images/favicons/favicon.ico']}" type="image/x-icon" />   
+
         
         
         <title>SegiResort</title>
     </h:head>
 
     <h:body>
+        
         <div id="slika">
         <div id="top" style="margin-bottom: 100px;">
             <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
@@ -38,16 +41,27 @@
                             <a class="nav-link" href="">Cene</a>
                         </li>
                         <li class="nav-item">
-                            <h:link class="nav-link" value="Kontakt" outcome="kontakt" />
+                            
+                            <a class="nav-link" href="/JSF_Hotel/faces/views/index/kontakt.xhtml">Kontakt</a>
                          </li>
                      </ul>
     
                 </div>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/JSF_Hotel/faces/views/account/register.xhtml">Register</a>
+            </li>
+        </ul>
+    </div>
             </nav>
         </div>
        
            
-            <div id="content" class="left_content">
+            <div id="content" class="container">
                 <ui:insert name="content">Content</ui:insert>
             </div>
        

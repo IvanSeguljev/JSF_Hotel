@@ -1,9 +1,11 @@
 html,body {
     
    
-    font-size: 12px;
-    font-family: Verdana, "Verdana CE",  Arial, "Arial CE", "Lucida Grande CE", lucida, "Helvetica CE", sans-serif;
-    color: white;  
+    color: white !important;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+
+    color: white !important;  
     height: 100%;
     width: 100%;
     background-image: url("../images/ight-blue-purple-wallpapers-hd-65891-4084749.png");
