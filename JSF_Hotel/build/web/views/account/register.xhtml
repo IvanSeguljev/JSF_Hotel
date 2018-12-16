@@ -8,16 +8,17 @@
         <ui:define name="content">
             <h1 align="center">Napravite novi nalog</h1>
             <h:messages style="color: red;"/>
-            <h:form ><hr/>
+            <h:form id="registerForm"><hr/>
                 <div class="row">
+                    
                     <div class="col-md-5" align="right"><h:outputLabel for="name">Korisnicko ime:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputText class="form-control" value="#{registerUser.username}" id="name"></h:inputText></div>
+                    <div class="col-md-4"><h:inputText class="form-control" value="#{registerUser.user.username}" id="name"></h:inputText></div>
                     <div class="col-md-3"></div>
                 </div>
                 <br/>
                 <div class="row">
                     <div class="col-md-5" align="right"><h:outputLabel for="email">E-mail adresa:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{registerUser.email}"  id="email"
+                    <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{registerUser.user.email}"  id="email"
                                                       required="true">
                             <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
                         </h:inputText></div>
@@ -26,13 +27,13 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-5" align="right"><h:outputLabel for="password">Lozinka:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputSecret required="true" requiredMessage="Molimo vas, unesite password" class="form-control" value="#{registerUser.password}" id="password"></h:inputSecret></div>
+                    <div class="col-md-4"><h:inputSecret required="true" requiredMessage="Molimo vas, unesite password" class="form-control" value="#{registerUser.user.password}" id="password"></h:inputSecret></div>
                     <div class="col-md-3"></div>
                 </div>
                 <br/>
                 <div class="row ">
                     <div class="col-md-5" align="right"><h:outputLabel for="passwordConfirm">Potvrda lozinke:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputSecret  class="form-control" required="true" requiredMessage="Molimo vas, potvrdite password" value="#{registerUser.passwordConfirm}" id="passwordConfirm"></h:inputSecret></div>
+                    <div class="col-md-4"><h:inputSecret  class="form-control" required="true" requiredMessage="Molimo vas, potvrdite password"  id="passwordConfirm"></h:inputSecret></div>
                     <div class="col-md-3"></div>
                 </div>
                 <br/>
@@ -46,9 +47,9 @@
                 <script>
                     function proveri()
                     {
-                        var password = document.getElementById("j_idt15:password").value;
-                        var confirm = document.getElementById("j_idt15:passwordConfirm").value;
-                        var email = document.getElementById("j_idt15:email").value;
+                        var password = document.getElementById("registerForm:password").value;
+                        var confirm = document.getElementById("registerForm:passwordConfirm").value;
+                        
                         
                         if(password!==confirm)
                         {
