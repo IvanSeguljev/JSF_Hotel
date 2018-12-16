@@ -139,9 +139,7 @@ public class User extends GenericEntity implements InTable<User> {
             }
             conn.close();
             return foundUsers;
-            
-            
-          
+                     
         } catch (Exception ex) {
             
         }
@@ -194,6 +192,36 @@ public class User extends GenericEntity implements InTable<User> {
     @Override
     public User pronadjiPoId(int Id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public ArrayList<String> validiraj(String username,String password)
+    {
+        try {
+            conn = new DBConnection().connect();
+            String kveri = this.getAllQuery + " WHERE username = ?";
+            PreparedStatement ps = conn.prepareStatement(kveri);           
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next())
+            {
+                boolean tacanPass = PasswordHelper.check(password, rs.getString("password")) ;
+                
+                if(tacanPass)
+                {
+                    ArrayList<String> userData = new ArrayList<String>();
+                    userData.add(rs.getString("username"));
+                    userData.add(rs.getString("role"));
+                    
+                    conn.close();
+                    return userData;
+                }
+                
+                
+            }
+        } catch (Exception ex) {
+            return null;
+        }
+        return null;
     }
     
 }

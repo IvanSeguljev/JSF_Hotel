@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="../layout/Layout.xhtml">
+        <ui:define name="content">
+            <h1 align="center">Napravite novi nalog</h1>
+            <hr/>
+            <h:message  for="login" style="color: greenyellow"/>
+            <h:message  for="login:name" style="color: red"/>
+          
+            
+            <h:form id="login">
+                
+                <div class="row">
+                    
+                    <div class="col-md-5" align="right"><h:outputLabel for="name">Korisnicko ime:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputText class="form-control" value="#{loginController.username}" id="name"></h:inputText></div>
+                    <div class="col-md-3"></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-5" align="right"><h:outputLabel for="password">Lozinka:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputSecret required="true" requiredMessage="Molimo vas, unesite password" class="form-control" value="#{loginController.password}" id="password"></h:inputSecret></div>
+                    <div class="col-md-3"></div>
+                </div>
+                <br/>
+                <div class="row">
+                     
+                    <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{loginController.login()}" value="Ulogujte se"></h:commandButton>
+                 </div>
+                
+            </h:form>
+
+        </ui:define>
+    </ui:composition>
+</html>

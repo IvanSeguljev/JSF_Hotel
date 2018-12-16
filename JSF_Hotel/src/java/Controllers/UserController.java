@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Beans;
+package Controllers;
 
 import Models.User;
 import javax.inject.Named;
@@ -20,7 +20,7 @@ import javax.faces.context.FacesContext;
  */
 
 @ViewScoped
-@ManagedBean(name="registerUser")
+@ManagedBean(name="userController")
 public class UserController {
 
     /**
@@ -62,7 +62,8 @@ public class UserController {
         boolean dodato = this.user.dodaj(this.user);
         if(dodato)
         {
-            return("/faces/views/index/index.xhtml");
+            FacesContext.getCurrentInstance().addMessage("login", new FacesMessage("Uspesno ste se registrovali! Mozete se ulogovati"));
+            return("/faces/views/account/login.xhtml");
         }
         else
         {
