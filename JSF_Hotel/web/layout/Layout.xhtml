@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -45,6 +46,12 @@
                             
                             <a class="nav-link" href="/JSF_Hotel/index/kontakt.xhtml">Kontakt</a>
                          </li>
+                       <c:if test="#{loginController.loggedRole == 'Administrator'}">
+                 <li class="nav-item">
+                     <a class="nav-link" href="/JSF_Hotel/account/list.xhtml">Lista korisnika</a>
+                 </li>
+                 
+                        </c:if>
                      </ul>
     
                 </div>
@@ -53,7 +60,13 @@
             
             <c:if test="${loginController.loggedUsername != null}">
                  <li class="nav-item">
-                     <a class="nav-link" href="/JSF_Hotel/account/details.xhtml">Moj profil</a>
+                     
+                     <h:link value="Moj profil" outcome="/account/details.xhtml">
+                         <c:if test="${loginController.loggedRole == 'Administrator'}">
+                             <f:param name="username" value="#{loginController.loggedUsername}"/>
+                         </c:if>
+                     </h:link>
+                         
                  </li>
                  <li class="nav-item">
                      <h:form>

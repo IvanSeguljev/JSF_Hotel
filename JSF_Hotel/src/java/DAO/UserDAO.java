@@ -40,7 +40,31 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
    
     @Override
     public ArrayList<User> vratiSve() {
-       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.getAllQuery);
+           
+            ResultSet rs = ps.executeQuery();
+            
+            ArrayList<User> foundUsers = new ArrayList<User>();
+            while(rs.next())
+            {
+                User u = new User();
+                u.setId(rs.getInt("id")); 
+                u.setUsername(rs.getString("username")); 
+                u.setPassword(rs.getString("password"));
+                u.setEmail(rs.getString("email"));
+                u.setUloga(rs.getString("role"));
+                foundUsers.add(u);
+            }
+            conn.close();
+            return foundUsers;
+                     
+        } catch (Exception ex) {
+            
+        }
+       
+        return null;
     }
 
    

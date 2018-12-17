@@ -10,23 +10,28 @@
             <h1 align="center">Nalog korisnika</h1>
             <hr/>
             <h:messages style="color: red"/>
-            <c:set var="User" value="${userController.showDetails()}"/>
+           
+            <f:metadata>
+                <f:viewParam name="username" value="${userController.user.username}"/>
+            </f:metadata>
+            ${session.getAttribute("role")=="Administrator" ? userController.setUser(userController.showDetails(userController.user.username)) : userController.setUser(userController.showDetails(session.getAttribute("username")))  }
+            <c:if test="${userController.user != null}">
             <div class="row">
                     
                 <div class="col-md-5" align="right"><h3>Korisnicko ime: </h3></div>
-                <div class="col-md-4"><h3>${User.username}</h3></div>
+                <div class="col-md-4"><h3>${userController.user.username}</h3></div>
                     <div class="col-md-3"></div>
             </div>
              <div class="row">
                     
                 <div class="col-md-5" align="right"><h3>Email: </h3></div>
-                <div class="col-md-4"><h3>${User.email}</h3></div>
+                <div class="col-md-4"><h3>${userController.user.email}</h3></div>
                     <div class="col-md-3"></div>
             </div>
              <div class="row">
                     
                 <div class="col-md-5" align="right"><h3>Uloga: </h3></div>
-                <div class="col-md-4"><h3>${User.uloga}</h3></div>
+                <div class="col-md-4"><h3>${userController.user.uloga}</h3></div>
                     <div class="col-md-3"></div>
             </div>
             <button class="btn btn-primary col-md-4 offset-4" type="button" data-toggle="modal" data-target="#exampleModal">
@@ -61,12 +66,16 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <h:commandButton onclick="return proveri()" class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
+        <h:commandButton  class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
       </div>
         </h:form>
     </div>
   </div>
 </div>
+            </c:if>
+            <c:if test="${userController.user == null}">
+                <h1>Korisnik nije pronadjen</h1>
+            </c:if>
         </ui:define>
     </ui:composition>
 </html>

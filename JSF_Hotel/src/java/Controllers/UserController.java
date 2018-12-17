@@ -9,6 +9,7 @@ import DAO.UserDAO;
 import Helpers.RedirectHelper;
 import Helpers.SessionUtils;
 import Models.User;
+import java.util.ArrayList;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -75,15 +76,24 @@ public class UserController {
         }
     }
     
-    public User showDetails()
+    public User showDetails(String username)
     {
+        
         UserDAO userData = new UserDAO();
-        String username = SessionUtils.getUserName();
+       
         if(username != null)
         {
-            User u = userData.pronadjiPoPolju("username", username).get(0);
-            this.user = u;
-            return u;
+            ArrayList<User> users = userData.pronadjiPoPolju("username", username);
+            if(users.size() > 0)
+            {
+            this.user = users.get(0);
+            return this.user;
+            }
+            else
+            {
+               
+                return null;
+            }
         }
         else
         {
@@ -125,6 +135,11 @@ public class UserController {
         }
        
         
+    }
+    public ArrayList<User> vratiSveKorisnike()
+    {
+           UserDAO u = new UserDAO();
+           return u.vratiSve();
     }
     
 }
