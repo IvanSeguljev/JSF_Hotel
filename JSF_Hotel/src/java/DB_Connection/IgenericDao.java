@@ -15,7 +15,7 @@ public interface IgenericDao<T> {
    public ArrayList<T> vratiSve();
    
    public T pronadjiPoId(int Id);
-   public void izmeni(T zaIzmenu, int Id);
+   public boolean izmeni(T zaIzmenu);
    public void obrisi(int Id);
    public boolean dodaj(T zaDodavanje);
    

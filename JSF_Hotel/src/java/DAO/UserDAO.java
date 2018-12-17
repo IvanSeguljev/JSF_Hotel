@@ -34,7 +34,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
         this.getAllQuery = "SELECT * FROM `"+tableName+"`";
         
         this.insertQuery = "INSERT INTO "+tableName+" ( `username`, `password`, `email`, `role`) VALUES (? ,? ,? ,?)";
-        this.updateQuery = "UPDATE "+tableName+" SET `username`= '?',`password`= '?',`email`= '?',`role`= '?' WHERE id = '?'";
+        this.updateQuery = "UPDATE "+tableName+" SET `username`= ?,`email`= ?,`role`= ? WHERE id = ?";
         this.deleteQuery = "DELETE FROM "+tableName+" WHERE id = '?'";
     }
    
@@ -76,8 +76,30 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
     }
 
     @Override
-    public void izmeni(User zaIzmenu, int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean izmeni(User zaIzmenu) {
+         try {
+            conn = new DBConnection().connect();
+            zaIzmenu.setPassword( PasswordHelper.getSaltedHash(zaIzmenu.getPassword()));
+            PreparedStatement ps = conn.prepareStatement(this.updateQuery);
+            zaIzmenu.setUloga("Klijent");
+            ps.setString(1, zaIzmenu.getUsername());
+           
+            ps.setString(2, zaIzmenu.getEmail());
+            ps.setString(3, zaIzmenu.getUloga());
+            ps.setInt(4, zaIzmenu.getId());
+            
+            int i = ps.executeUpdate();
+            conn.close();
+            if(i!=0)
+            {
+                return true;
+            }
+          
+        } catch (Exception ex) {
+            
+        }
+        
+        return false;
     }
 
     @Override
@@ -118,7 +140,35 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
 
     @Override
     public User pronadjiPoId(int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try {
+            conn = new DBConnection().connect();
+            String kveri = this.getAllQuery + " WHERE id = " + Id;
+            PreparedStatement ps = conn.prepareStatement(kveri);
+           
+           
+            ResultSet rs = ps.executeQuery();
+            
+            ArrayList<User> foundUsers = new ArrayList<User>();
+            if(rs.next())
+            {
+                User u = new User();
+                u.setId(rs.getInt("id")); 
+                u.setUsername(rs.getString("username")); 
+                u.setPassword(rs.getString("password"));
+                u.setEmail(rs.getString("email"));
+                u.setUloga(rs.getString("role"));
+                conn.close();
+                return u;
+            }
+            
+            
+                     
+        } catch (Exception ex) {
+            
+        }
+       
+        return null;
+       
     }
     
     public ArrayList<String> validiraj(String username,String password)

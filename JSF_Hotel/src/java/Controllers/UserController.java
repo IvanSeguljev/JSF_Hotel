@@ -82,6 +82,7 @@ public class UserController {
         if(username != null)
         {
             User u = userData.pronadjiPoPolju("username", username).get(0);
+            this.user = u;
             return u;
         }
         else
@@ -89,6 +90,41 @@ public class UserController {
             RedirectHelper.redirect("");
             return null;
         }
+    }
+    
+    public String izmeniKorisnika()
+    {
+        UserDAO data = new UserDAO();
+        int sameMails = data.pronadjiPoPolju("email", user.getEmail()).size();
+        int sameUsernames = data.pronadjiPoPolju("username", user.getUsername()).size();
+        User stari = data.pronadjiPoId(this.user.getId());
+        int greske = 0;
+        if(sameUsernames != 0 && !stari.getUsername().equals(this.user.getUsername()))
+        {
+            greske++;
+            FacesContext.getCurrentInstance().addMessage("changeForm:name", new FacesMessage("Korisnik sa istim korisnickim imenom vec postoji!"));
+        }
+         if(sameMails != 0 && !stari.getEmail().equals(this.user.getEmail()))
+        {
+            greske++;
+            FacesContext.getCurrentInstance().addMessage("changeForm:email", new FacesMessage("Korisnik sa istom mail adresom vec postoji!"));
+        }
+        if(greske ==0)
+        {
+            FacesContext.getCurrentInstance().addMessage("login", new FacesMessage("Uspesno ste izmenili podatke"));
+            
+            data.izmeni(this.user);
+            LoginController ls = new LoginController();
+           
+            ls.logout();
+            return "/account/login.xhtml";
+        }
+        else
+        {
+            return "";
+        }
+       
+        
     }
     
 }

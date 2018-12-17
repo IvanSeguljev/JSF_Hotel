@@ -40,7 +40,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <h:form>
+        <h:form id="changeForm">
       <div class="modal-body">
         <div class="row">
                     
@@ -60,7 +60,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <h:commandButton onclick="return proveri()" class="btn btn-primary" action="#{userController.register()}" value="Izmeni podatke"></h:commandButton>
+        <h:commandButton onclick="return proveri()" class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
       </div>
         </h:form>
     </div>
