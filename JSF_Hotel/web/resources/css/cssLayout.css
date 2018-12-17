@@ -1,12 +1,12 @@
 .navbar{
-    background-color: #282828 !important;
+    
     border-bottom: 2px #0c0032 solid;
     font-family: 'Dosis', sans-serif;
     font-weight: 800;
     font-size: 18px;
     line-height: 23px;
     margin: 0 0 23px 0;
-    color: white;
+    color: red;
     box-shadow: 0px 3px 5px black;
   
 }

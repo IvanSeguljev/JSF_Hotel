@@ -11,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author werfawf
  */
-public interface InTable<T> {
+public interface IgenericDao<T> {
    public ArrayList<T> vratiSve();
    
    public T pronadjiPoId(int Id);

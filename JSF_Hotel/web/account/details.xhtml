@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="../layout/Layout.xhtml">
+        <ui:define name="content">
+            <h1 align="center">Nalog korisnika</h1>
+            <hr/>
+            <c:set var="User" value="${userController.showDetails()}"/>
+            <div class="row">
+                    
+                <div class="col-md-5" align="right"><h3>Korisnicko ime: </h3></div>
+                <div class="col-md-4"><h3>${User.username}</h3></div>
+                    <div class="col-md-3"></div>
+            </div>
+             <div class="row">
+                    
+                <div class="col-md-5" align="right"><h3>Email: </h3></div>
+                <div class="col-md-4"><h3>${User.email}</h3></div>
+                    <div class="col-md-3"></div>
+            </div>
+             <div class="row">
+                    
+                <div class="col-md-5" align="right"><h3>Uloga: </h3></div>
+                <div class="col-md-4"><h3>${User.uloga}</h3></div>
+                    <div class="col-md-3"></div>
+            </div>
+            <button class="btn btn-primary col-md-4 offset-4" type="button" data-toggle="modal" data-target="#exampleModal">
+                Izmeni korisnicke podatke
+            </button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: black">Izmenite svoje podatke</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <h:form>
+      <div class="modal-body">
+        <div class="row">
+                    
+                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="name">novo korisnicko ime:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputText class="form-control" value="#{userController.user.username}" id="name"></h:inputText></div>
+                    <div class="col-md-3"></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="email">nova e-mail adresa:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{userController.user.email}"  id="email"
+                                                      required="true">
+                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+                        </h:inputText></div>
+                    <div class="col-md-3"></div>
+                </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <h:commandButton onclick="return proveri()" class="btn btn-primary" action="#{userController.register()}" value="Izmeni podatke"></h:commandButton>
+      </div>
+        </h:form>
+    </div>
+  </div>
+</div>
+        </ui:define>
+    </ui:composition>
+</html>
+

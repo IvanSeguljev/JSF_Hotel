@@ -9,7 +9,7 @@
     </h:head>
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
-            <h1 align="center">Dobrodosli u Segi Resort<c:if test="${loginController.loggedUsername != null}">, korisnice #{loginController.loggedUsername}</c:if></h1>
+            <h1 align="center">Dobrodosli u Segi Resort<c:if test="${loginController.username != null}">, korisnice #{loginController.loggedUsername}</c:if></h1>
             <center><i>Vase uzivanje nam je na prvom mestu</i></center>
             <br/>
             <p>Da li zelite da se opustite i zaboravite na probleme sa kojima se svakodnevno susrecete?

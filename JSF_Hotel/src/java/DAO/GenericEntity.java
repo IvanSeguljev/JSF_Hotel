@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Models;
+package DAO;
 
 import DB_Connection.DBConnection;
-import DB_Connection.InTable;
 import java.sql.Connection;
+import DB_Connection.IgenericDao;
 
 /**
  *

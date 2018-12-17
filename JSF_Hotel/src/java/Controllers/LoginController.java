@@ -6,12 +6,15 @@
 package Controllers;
 
 import Helpers.SessionUtils;
-import Models.User;
+import DAO.UserDAO;
+import Helpers.RedirectHelper;
+import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +22,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author werfawf
  */
-@Named(value = "loginController")
+@Named(value = "loginController" )
 @SessionScoped
+
 public class LoginController implements Serializable {
 
     /**
@@ -77,7 +81,7 @@ public class LoginController implements Serializable {
     }
     public String login()
     {
-        User u = new User();
+        UserDAO u = new UserDAO();
         ArrayList<String> userData = u.validiraj(username, password);
         if(userData != null)
         {           
@@ -86,18 +90,22 @@ public class LoginController implements Serializable {
             this.loggedUsername = userData.get(0);
             sesija.setAttribute("username", userData.get(0));
             sesija.setAttribute("role", userData.get(1));
-            return "/faces/views/index/index.xhtml";
+           
+            RedirectHelper.redirect("");
+            
         }
         else
         {
              FacesContext.getCurrentInstance().addMessage("login:name", new FacesMessage("Uneli ste pogresne login podatke, molimo vas pokusajte ponovo"));
-             return "";
+             return "/account/login.xhtml";
         }
+        return "";
     }
     public String logout() {
 		HttpSession session = SessionUtils.getSession();
 		session.invalidate();
-		return "/faces/views/account/login.xhtml";
+                RedirectHelper.redirect("/account/login.xhtml");
+		return "";
 	}
     
     

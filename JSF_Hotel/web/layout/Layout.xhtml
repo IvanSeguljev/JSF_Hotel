@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -12,7 +13,7 @@
         <h:outputScript name="scripts/jquery.min.js"/>
         <h:outputScript name="Bootstrap/js/bootstrap.js"/>
         
-        <link rel="shortcut icon" href="#{resource['images/favicons/favicon.ico']}" type="image/x-icon" />   
+        <link rel="shortcut icon" href="/JSF_Hotel/resources/images/favicons/favicon.ico" type="image/x-icon" />   
 
         
         
@@ -23,7 +24,7 @@
         
         <div id="slika">
         <div id="top" style="margin-bottom: 100px;">
-            <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+            <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
                 <a class="navbar-brand" href="/JSF_Hotel/"><h:graphicImage url="/resources/images/mojLogo.png" style="height: 50px; position: fixed; top: 10px;"/></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -42,19 +43,33 @@
                         </li>
                         <li class="nav-item">
                             
-                            <a class="nav-link" href="/JSF_Hotel/faces/views/index/kontakt.xhtml">Kontakt</a>
+                            <a class="nav-link" href="/JSF_Hotel/index/kontakt.xhtml">Kontakt</a>
                          </li>
                      </ul>
     
                 </div>
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
+            
+            <c:if test="${loginController.loggedUsername != null}">
+                 <li class="nav-item">
+                     <a class="nav-link" href="/JSF_Hotel/account/details.xhtml">Moj profil</a>
+                 </li>
+                 <li class="nav-item">
+                     <h:form>
+                         <h:commandButton class="nav-item btn btn-danger" action="#{loginController.logout()}" value="Log out"/>
+                     </h:form>
+                 </li>
+        </c:if>
+            <c:if test="${loginController.loggedUsername == null}">
             <li class="nav-item">
-                <a class="nav-link" href="/JSF_Hotel/faces/views/account/login.xhtml">Login</a>
+                <a class="nav-link" href="/JSF_Hotel/account/login.xhtml">Login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/JSF_Hotel/faces/views/account/register.xhtml">Register</a>
+                <a class="nav-link" href="/JSF_Hotel/account/register.xhtml">Register</a>
             </li>
+        </c:if>
+                
         </ul>
     </div>
             </nav>
