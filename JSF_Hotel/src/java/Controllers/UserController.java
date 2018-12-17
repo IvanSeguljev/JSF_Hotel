@@ -66,7 +66,7 @@ public class UserController {
         boolean dodato = dataAcces.dodaj(this.user);
         if(dodato)
         {
-            FacesContext.getCurrentInstance().addMessage("login", new FacesMessage("Uspesno ste se registrovali! Mozete se ulogovati"));
+            FacesContext.getCurrentInstance().addMessage("login:name", new FacesMessage("Uspesno ste se registrovali! Mozete se ulogovati"));
             return("/account/login.xhtml?faces-redirect=true");
         }
         else
