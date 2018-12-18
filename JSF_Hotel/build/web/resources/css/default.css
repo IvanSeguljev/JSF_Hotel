@@ -6,15 +6,22 @@ html,body {
     font-size: 14px;
 
     color: white !important;  
-    height: 100%;
+    
+    
+    
+}
+.slika{
+    filter: blur(5px);
+  -webkit-filter: blur(5px);
+  height: 100%;
     width: 100%;
+    position: absolute;
+    z-index: -1000;
     background-image: url("/JSF_Hotel/resources/images/SnowResort.jpg");
     background-position: center;
     background-repeat: no-repeat;
    
     background-attachment: fixed;
-    
-    
 }
 
 

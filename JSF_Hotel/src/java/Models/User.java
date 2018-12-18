@@ -90,4 +90,19 @@ public class User {
     private String password;
     private String email;
     private String uloga;
+    private int poeni;
+
+    /**
+     * @return the poeni
+     */
+    public int getPoeni() {
+        return poeni;
+    }
+
+    /**
+     * @param poeni the poeni to set
+     */
+    public void setPoeni(int poeni) {
+        this.poeni = poeni;
+    }
 }

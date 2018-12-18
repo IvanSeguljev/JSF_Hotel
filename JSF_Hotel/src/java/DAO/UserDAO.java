@@ -34,7 +34,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
         this.getAllQuery = "SELECT * FROM `"+tableName+"`";
         
         this.insertQuery = "INSERT INTO "+tableName+" ( `username`, `password`, `email`, `role`) VALUES (? ,? ,? ,?)";
-        this.updateQuery = "UPDATE "+tableName+" SET `username`= ?,`email`= ?,`role`= ? WHERE id = ?";
+        this.updateQuery = "UPDATE "+tableName+" SET `username`= ?,`email`= ?,`role`= ?,`poeni`=? WHERE id = ?";
         this.deleteQuery = "DELETE FROM "+tableName+" WHERE id = '?'";
     }
    
@@ -86,6 +86,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
                 u.setPassword(rs.getString("password"));
                 u.setEmail(rs.getString("email"));
                 u.setUloga(rs.getString("role"));
+                u.setPoeni(rs.getInt("poeni"));
                 foundUsers.add(u);
             }
             conn.close();
@@ -110,6 +111,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
            
             ps.setString(2, zaIzmenu.getEmail());
             ps.setString(3, zaIzmenu.getUloga());
+            ps.setInt(4, zaIzmenu.getPoeni());
             ps.setInt(4, zaIzmenu.getId());
             
             int i = ps.executeUpdate();
@@ -181,6 +183,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
                 u.setPassword(rs.getString("password"));
                 u.setEmail(rs.getString("email"));
                 u.setUloga(rs.getString("role"));
+                u.setPoeni(rs.getInt("poeni"));
                 conn.close();
                 return u;
             }
