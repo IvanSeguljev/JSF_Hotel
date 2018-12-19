@@ -35,8 +35,18 @@
     			</h:column>
     			<h:column>
     				<f:facet name="header">Akcije</f:facet>
-    				
-                     
+                                <div class="row">
+                                <h:link  outcome="/account/details.xhtml">   
+                                    <button class="btn btn-outline-info">Profil</button>
+                                    <f:param name="username" value="#{o.username}"/>
+                                 </h:link>
+                                <h:form>
+                                    <h:commandButton action="#{userController.obrisi(o.id)}" value="Obrisi" styleClass="btn btn-outline-danger"
+                                                     onclick="return confirm('Jeste li sigurni?');"/>
+                                                     
+                                </h:form>
+                                </div>
+                                
     			</h:column>
     			
     		

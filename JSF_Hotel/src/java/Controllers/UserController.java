@@ -141,5 +141,11 @@ public class UserController {
            UserDAO u = new UserDAO();
            return u.vratiSve();
     }
+    public String obrisi(int Id)
+    {
+        UserDAO dao = new UserDAO();
+        dao.obrisi(Id);
+        return "";
+    }
     
 }

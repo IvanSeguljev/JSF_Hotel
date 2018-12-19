@@ -35,7 +35,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
         
         this.insertQuery = "INSERT INTO "+tableName+" ( `username`, `password`, `email`, `role`) VALUES (? ,? ,? ,?)";
         this.updateQuery = "UPDATE "+tableName+" SET `username`= ?,`email`= ?,`role`= ?,`poeni`=? WHERE id = ?";
-        this.deleteQuery = "DELETE FROM "+tableName+" WHERE id = '?'";
+        this.deleteQuery = "DELETE FROM "+tableName+" WHERE id = ?";
     }
    
     @Override
@@ -61,7 +61,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             return foundUsers;
                      
         } catch (Exception ex) {
-            
+            System.out.println("Doslo je do greske pri vracanju svih korisnika: " + ex.getMessage());
         }
        
         return null;
@@ -93,7 +93,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             return foundUsers;
                      
         } catch (Exception ex) {
-            
+            System.out.println("Doslo je do greske pri pronalazenju korisnika: " + ex.getMessage());
         }
        
         return null;
@@ -122,7 +122,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             }
           
         } catch (Exception ex) {
-            
+            System.out.println("Doslo je do greske pri izmeni korisnika: " + ex.getMessage());
         }
         
         return false;
@@ -130,7 +130,14 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
 
     @Override
     public void obrisi(int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.deleteQuery);
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Doslo je do greske pri brisanju korisnika: " + ex.getMessage());
+        }
     }
 
     /**
@@ -158,7 +165,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             }
           
         } catch (Exception ex) {
-            
+            System.out.println("Doslo je do greske pri dodavanju korisnika: " + ex.getMessage());
         }
         
         return false;
@@ -191,7 +198,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             
                      
         } catch (Exception ex) {
-            
+            System.out.println("Doslo je do greske pri trazenju korisnika: " + ex.getMessage());
         }
        
         return null;
@@ -223,6 +230,7 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
                 
             }
         } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri validaciji korisnika: " + ex.getMessage());
             return null;
         }
         return null;
