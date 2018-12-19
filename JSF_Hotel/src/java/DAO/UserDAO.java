@@ -21,37 +21,31 @@ import Models.User;
  *
  * @author werfawf
  */
-
 public class UserDAO extends GenericEntity implements IgenericDao<User> {
 
-   
     /*Kveriji*/
-    
-    
-    public UserDAO()
-    {
+    public UserDAO() {
         this.tableName = "User";
-        this.getAllQuery = "SELECT * FROM `"+tableName+"`";
-        
-        this.insertQuery = "INSERT INTO "+tableName+" ( `username`, `password`, `email`, `role`) VALUES (? ,? ,? ,?)";
-        this.updateQuery = "UPDATE "+tableName+" SET `username`= ?,`email`= ?,`role`= ?,`poeni`=? WHERE id = ?";
-        this.deleteQuery = "DELETE FROM "+tableName+" WHERE id = ?";
+        this.getAllQuery = "SELECT * FROM `" + tableName + "`";
+
+        this.insertQuery = "INSERT INTO " + tableName + " ( `username`, `password`, `email`, `role`) VALUES (? ,? ,? ,?)";
+        this.updateQuery = "UPDATE " + tableName + " SET `username`= ?,`email`= ?,`role`= ?,`poeni`=? WHERE id = ?";
+        this.deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
     }
-   
+
     @Override
     public ArrayList<User> vratiSve() {
         try {
             conn = new DBConnection().connect();
             PreparedStatement ps = conn.prepareStatement(this.getAllQuery);
-           
+
             ResultSet rs = ps.executeQuery();
-            
+
             ArrayList<User> foundUsers = new ArrayList<User>();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 User u = new User();
-                u.setId(rs.getInt("id")); 
-                u.setUsername(rs.getString("username")); 
+                u.setId(rs.getInt("id"));
+                u.setUsername(rs.getString("username"));
                 u.setPassword(rs.getString("password"));
                 u.setEmail(rs.getString("email"));
                 u.setUloga(rs.getString("role"));
@@ -59,30 +53,28 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             }
             conn.close();
             return foundUsers;
-                     
+
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri vracanju svih korisnika: " + ex.getMessage());
         }
-       
+
         return null;
     }
 
-   
-    public ArrayList<User> pronadjiPoPolju(String nazivPolja,String vrednostPolja) {
+    public ArrayList<User> pronadjiPoPolju(String nazivPolja, String vrednostPolja) {
         try {
             conn = new DBConnection().connect();
             String kveri = this.getAllQuery + " WHERE " + nazivPolja + " = ?";
             PreparedStatement ps = conn.prepareStatement(kveri);
-           
+
             ps.setString(1, vrednostPolja);
             ResultSet rs = ps.executeQuery();
-            
+
             ArrayList<User> foundUsers = new ArrayList<User>();
-            while(rs.next())
-            {
+            while (rs.next()) {
                 User u = new User();
-                u.setId(rs.getInt("id")); 
-                u.setUsername(rs.getString("username")); 
+                u.setId(rs.getInt("id"));
+                u.setUsername(rs.getString("username"));
                 u.setPassword(rs.getString("password"));
                 u.setEmail(rs.getString("email"));
                 u.setUloga(rs.getString("role"));
@@ -91,40 +83,38 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             }
             conn.close();
             return foundUsers;
-                     
+
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri pronalazenju korisnika: " + ex.getMessage());
         }
-       
+
         return null;
-       
+
     }
 
     @Override
     public boolean izmeni(User zaIzmenu) {
-         try {
+        try {
             conn = new DBConnection().connect();
-            zaIzmenu.setPassword( PasswordHelper.getSaltedHash(zaIzmenu.getPassword()));
+            zaIzmenu.setPassword(PasswordHelper.getSaltedHash(zaIzmenu.getPassword()));
             PreparedStatement ps = conn.prepareStatement(this.updateQuery);
             zaIzmenu.setUloga("Klijent");
-            ps.setString(1, zaIzmenu.getUsername());
-           
+            ps.setString(1, zaIzmenu.getUsername());            
             ps.setString(2, zaIzmenu.getEmail());
             ps.setString(3, zaIzmenu.getUloga());
             ps.setInt(4, zaIzmenu.getPoeni());
             ps.setInt(4, zaIzmenu.getId());
-            
+
             int i = ps.executeUpdate();
             conn.close();
-            if(i!=0)
-            {
+            if (i != 0) {
                 return true;
             }
-          
+
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri izmeni korisnika: " + ex.getMessage());
         }
-        
+
         return false;
     }
 
@@ -149,44 +139,41 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
     public boolean dodaj(User zaDodavanje) {
         try {
             conn = new DBConnection().connect();
-            zaDodavanje.setPassword( PasswordHelper.getSaltedHash(zaDodavanje.getPassword()));
+            zaDodavanje.setPassword(PasswordHelper.getSaltedHash(zaDodavanje.getPassword()));
             PreparedStatement ps = conn.prepareStatement(this.insertQuery);
             zaDodavanje.setUloga("Klijent");
             ps.setString(1, zaDodavanje.getUsername());
             ps.setString(2, zaDodavanje.getPassword());
             ps.setString(3, zaDodavanje.getEmail());
             ps.setString(4, zaDodavanje.getUloga());
-            
+
             int i = ps.executeUpdate();
             conn.close();
-            if(i!=0)
-            {
+            if (i != 0) {
                 return true;
             }
-          
+
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri dodavanju korisnika: " + ex.getMessage());
         }
-        
+
         return false;
     }
 
     @Override
     public User pronadjiPoId(int Id) {
-         try {
+        try {
             conn = new DBConnection().connect();
             String kveri = this.getAllQuery + " WHERE id = " + Id;
             PreparedStatement ps = conn.prepareStatement(kveri);
-           
-           
+
             ResultSet rs = ps.executeQuery();
-            
+
             ArrayList<User> foundUsers = new ArrayList<User>();
-            if(rs.next())
-            {
+            if (rs.next()) {
                 User u = new User();
-                u.setId(rs.getInt("id")); 
-                u.setUsername(rs.getString("username")); 
+                u.setId(rs.getInt("id"));
+                u.setUsername(rs.getString("username"));
                 u.setPassword(rs.getString("password"));
                 u.setEmail(rs.getString("email"));
                 u.setUloga(rs.getString("role"));
@@ -194,40 +181,34 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
                 conn.close();
                 return u;
             }
-            
-            
-                     
+
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri trazenju korisnika: " + ex.getMessage());
         }
-       
+
         return null;
-       
+
     }
-    
-    public ArrayList<String> validiraj(String username,String password)
-    {
+
+    public ArrayList<String> validiraj(String username, String password) {
         try {
             conn = new DBConnection().connect();
             String kveri = this.getAllQuery + " WHERE username = ?";
-            PreparedStatement ps = conn.prepareStatement(kveri);           
+            PreparedStatement ps = conn.prepareStatement(kveri);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-            if(rs.next())
-            {
-                boolean tacanPass = PasswordHelper.check(password, rs.getString("password")) ;
-                
-                if(tacanPass)
-                {
+            if (rs.next()) {
+                boolean tacanPass = PasswordHelper.check(password, rs.getString("password"));
+
+                if (tacanPass) {
                     ArrayList<String> userData = new ArrayList<String>();
                     userData.add(rs.getString("username"));
                     userData.add(rs.getString("role"));
-                    
+
                     conn.close();
                     return userData;
                 }
-                
-                
+
             }
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri validaciji korisnika: " + ex.getMessage());
@@ -235,5 +216,5 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
         }
         return null;
     }
-    
+
 }

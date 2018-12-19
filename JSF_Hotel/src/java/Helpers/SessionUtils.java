@@ -14,27 +14,29 @@ import javax.servlet.http.HttpSession;
  * @author werfawf
  */
 public class SessionUtils {
+
     public static HttpSession getSession() {
-		return (HttpSession) FacesContext.getCurrentInstance()
-				.getExternalContext().getSession(false);
-	}
+        return (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+    }
 
-	public static HttpServletRequest getRequest() {
-		return (HttpServletRequest) FacesContext.getCurrentInstance()
-				.getExternalContext().getRequest();
-	}
+    public static HttpServletRequest getRequest() {
+        return (HttpServletRequest) FacesContext.getCurrentInstance()
+                .getExternalContext().getRequest();
+    }
 
-	public static String getUserName() {
-		HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
-				.getExternalContext().getSession(false);
-		return session.getAttribute("username").toString();
-	}
+    public static String getUserName() {
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance()
+                .getExternalContext().getSession(false);
+        return session.getAttribute("username").toString();
+    }
 
-	public static String getUserRole() {
-		HttpSession session = getSession();
-		if (session != null)
-			return (String) session.getAttribute("role");
-		else
-			return null;
-	}
+    public static String getUserRole() {
+        HttpSession session = getSession();
+        if (session != null) {
+            return (String) session.getAttribute("role");
+        } else {
+            return null;
+        }
+    }
 }

@@ -80,11 +80,11 @@ public class User {
     public void setUloga(String uloga) {
         this.uloga = uloga;
     }
-     /**
+    /**
      * @return the id
      */
-   
-/*Polja*/
+
+    /*Polja*/
     private int id;
     private String username;
     private String password;

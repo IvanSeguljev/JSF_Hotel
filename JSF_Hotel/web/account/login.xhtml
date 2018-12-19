@@ -10,12 +10,12 @@
             <hr/>
             <h:message  for="login" style="color: greenyellow"/>
             <h:message  for="login:name" style="color: red"/>
-          
-            
+
+
             <h:form id="login">
-                
+
                 <div class="row">
-                    
+
                     <div class="col-md-5" align="right"><h:outputLabel for="name">Korisnicko ime:</h:outputLabel></div>
                     <div class="col-md-4"><h:inputText class="form-control" value="#{loginController.username}" id="name"></h:inputText></div>
                     <div class="col-md-3"></div>
@@ -28,10 +28,10 @@
                 </div>
                 <br/>
                 <div class="row">
-                     
+
                     <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{loginController.login()}" value="Ulogujte se"></h:commandButton>
-                 </div>
-                
+                </div>
+
             </h:form>
 
         </ui:define>

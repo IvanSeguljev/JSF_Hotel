@@ -12,12 +12,15 @@ import java.util.ArrayList;
  * @author werfawf
  */
 public interface IgenericDao<T> {
-   public ArrayList<T> vratiSve();
-   
-   public T pronadjiPoId(int Id);
-   public boolean izmeni(T zaIzmenu);
-   public void obrisi(int Id);
-   public boolean dodaj(T zaDodavanje);
-   
-   
+
+    public ArrayList<T> vratiSve();
+
+    public T pronadjiPoId(int Id);
+
+    public boolean izmeni(T zaIzmenu);
+
+    public void obrisi(int Id);
+
+    public boolean dodaj(T zaDodavanje);
+
 }

@@ -16,8 +16,7 @@ import DB_Connection.IgenericDao;
 public abstract class GenericEntity  {
     protected String tableName;
     protected Connection conn;
-    protected String getAllQuery;
-   
+    protected String getAllQuery;   
     protected String insertQuery;
     protected String updateQuery;
     protected String deleteQuery;

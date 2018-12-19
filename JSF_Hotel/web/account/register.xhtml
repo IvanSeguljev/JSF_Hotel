@@ -10,7 +10,7 @@
             <h:messages style="color: red;"/>
             <h:form id="registerForm"><hr/>
                 <div class="row">
-                    
+
                     <div class="col-md-5" align="right"><h:outputLabel for="name">Korisnicko ime:</h:outputLabel></div>
                     <div class="col-md-4"><h:inputText class="form-control" value="#{userController.user.username}" id="name"></h:inputText></div>
                     <div class="col-md-3"></div>
@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-md-5" align="right"><h:outputLabel for="email">E-mail adresa:</h:outputLabel></div>
                     <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{userController.user.email}"  id="email"
-                                                      required="true">
+                                                       required="true">
                             <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
                         </h:inputText></div>
                     <div class="col-md-3"></div>
@@ -37,29 +37,29 @@
                     <div class="col-md-3"></div>
                 </div>
                 <br/>
-                 <div class="row">
-                     
-                     <h:commandButton onclick="return proveri()" class="btn btn-primary col-md-4 offset-4" action="#{userController.register()}" value="Napravi nalog"></h:commandButton>
-                 </div>
-               		
-	</h:form>
-             
-                <script>
-                    function proveri()
+                <div class="row">
+
+                    <h:commandButton onclick="return proveri()" class="btn btn-primary col-md-4 offset-4" action="#{userController.register()}" value="Napravi nalog"></h:commandButton>
+                </div>
+
+            </h:form>
+
+            <script>
+                function proveri()
+                {
+                    var password = document.getElementById("registerForm:password").value;
+                    var confirm = document.getElementById("registerForm:passwordConfirm").value;
+
+
+                    if (password !== confirm)
                     {
-                        var password = document.getElementById("registerForm:password").value;
-                        var confirm = document.getElementById("registerForm:passwordConfirm").value;
-                        
-                        
-                        if(password!==confirm)
-                        {
-                            alert("password i potvrda se moraju slagati!");
-                            return false;
-                        }
-                        
-                       return true;
+                        alert("password i potvrda se moraju slagati!");
+                        return false;
                     }
-                </script>
+
+                    return true;
+                }
+            </script>
 
         </ui:define>
     </ui:composition>

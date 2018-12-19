@@ -10,80 +10,81 @@
             <h1 align="center">Nalog korisnika</h1>
             <hr/>
             <h:messages style="color: red"/>
-           
+
             <f:metadata>
                 <f:viewParam name="username" value="${userController.user.username}"/>
             </f:metadata>
             ${session.getAttribute("role")=="Administrator" ? userController.setUser(userController.showDetails(userController.user.username)) : userController.setUser(userController.showDetails(session.getAttribute("username")))  }
             <c:if test="${userController.user != null}">
-            <div class="row">
-                    
-                <div class="col-md-5" align="right"><h3>Korisnicko ime: </h3></div>
-                <div class="col-md-4"><h3>${userController.user.username}</h3></div>
+                <div class="row">
+
+                    <div class="col-md-5" align="right"><h3>Korisnicko ime: </h3></div>
+                    <div class="col-md-4"><h3>${userController.user.username}</h3></div>
                     <div class="col-md-3"></div>
-            </div>
-                <br/>
-             <div class="row">
-                    
-                <div class="col-md-5" align="right"><h3>Email: </h3></div>
-                <div class="col-md-4"><h3>${userController.user.email}</h3></div>
-                    <div class="col-md-3"></div>
-            </div>
-                <br/>
-             <div class="row">
-                    
-                <div class="col-md-5" align="right"><h3>Uloga: </h3></div>
-                <div class="col-md-4"><h3>${userController.user.uloga}</h3></div>
-                    <div class="col-md-3"></div>
-            </div>
+                </div>
                 <br/>
                 <div class="row">
-                    
-                <div class="col-md-5" align="right"><h3>Dosadasnji poeni: </h3></div>
-                <div class="col-md-4"><h3>${userController.user.poeni}</h3></div>
+
+                    <div class="col-md-5" align="right"><h3>Email: </h3></div>
+                    <div class="col-md-4"><h3>${userController.user.email}</h3></div>
                     <div class="col-md-3"></div>
-            </div>
+                </div>
                 <br/>
+                <div class="row">
+
+                    <div class="col-md-5" align="right"><h3>Uloga: </h3></div>
+                    <div class="col-md-4"><h3>${userController.user.uloga}</h3></div>
+                    <div class="col-md-3"></div>
+                </div>
+                <br/>
+                <div class="row">
+
+                    <div class="col-md-5" align="right"><h3>Dosadasnji poeni: </h3></div>
+                    <div class="col-md-4"><h3>${userController.user.poeni}</h3></div>
+                    <div class="col-md-3"></div>
+                </div>
+                <br/>
+
                 <c:if test="${session.getAttribute('username')==userController.user.username}">
-            <button class="btn btn-primary col-md-4 offset-4" type="button" data-toggle="modal" data-target="#exampleModal">
-                Izmeni korisnicke podatke
-            </button>
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel" style="color: black">Izmenite svoje podatke</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        <h:form id="changeForm">
-      <div class="modal-body">
-        <div class="row">
-                    
-                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="name">novo korisnicko ime:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputText class="form-control" value="#{userController.user.username}" id="name"></h:inputText></div>
-                    <div class="col-md-3"></div>
-                </div>
-                <br/>
-                <div class="row">
-                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="email">nova e-mail adresa:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{userController.user.email}"  id="email"
-                                                      required="true">
-                            <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
-                        </h:inputText></div>
-                    <div class="col-md-3"></div>
-                </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <h:commandButton  class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
-      </div>
-        </h:form>
-    </div>
-  </div>
-</div>
-                    </c:if>
+                    <button class="btn btn-primary col-md-4 offset-4" type="button" data-toggle="modal" data-target="#exampleModal">
+                        Izmeni korisnicke podatke
+                    </button>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel" style="color: black">Izmenite svoje podatke</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <h:form id="changeForm">
+                                    <div class="modal-body">
+                                        <div class="row">
+
+                                            <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="name">novo korisnicko ime:</h:outputLabel></div>
+                                            <div class="col-md-4"><h:inputText class="form-control" value="#{userController.user.username}" id="name"></h:inputText></div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="email">nova e-mail adresa:</h:outputLabel></div>
+                                            <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{userController.user.email}"  id="email"
+                                                                               required="true">
+                                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+                                                </h:inputText></div>
+                                            <div class="col-md-3"></div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <h:commandButton  class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
+                                    </div>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </c:if>
             </c:if>
             <c:if test="${userController.user == null}">
                 <h1>Korisnik nije pronadjen</h1>

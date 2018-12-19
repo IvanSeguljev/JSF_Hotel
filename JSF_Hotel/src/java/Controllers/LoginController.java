@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author werfawf
  */
-@Named(value = "loginController" )
+@Named(value = "loginController")
 @SessionScoped
 
 public class LoginController implements Serializable {
@@ -41,7 +41,6 @@ public class LoginController implements Serializable {
         return loggedRole;
     }
 
-    
     /**
      * @return the username
      */
@@ -72,43 +71,37 @@ public class LoginController implements Serializable {
 
     private String username;
     private String password;
-    
-   private String loggedUsername;
-   private String loggedRole;
-    
-    
+
+    private String loggedUsername;
+    private String loggedRole;
+
     public LoginController() {
     }
-    public String login()
-    {
+
+    public String login() {
         UserDAO u = new UserDAO();
         ArrayList<String> userData = u.validiraj(username, password);
-        if(userData != null)
-        {           
+        if (userData != null) {
             HttpSession sesija = SessionUtils.getSession();
             this.loggedRole = userData.get(1);
             this.loggedUsername = userData.get(0);
             sesija.setAttribute("username", userData.get(0));
             sesija.setAttribute("role", userData.get(1));
-           
+
             RedirectHelper.redirect("");
-            
-        }
-        else
-        {
-             FacesContext.getCurrentInstance().addMessage("login:name", new FacesMessage("Uneli ste pogresne login podatke, molimo vas pokusajte ponovo"));
-             return "/account/login.xhtml";
+
+        } else {
+            FacesContext.getCurrentInstance().addMessage("login:name", new FacesMessage("Uneli ste pogresne login podatke, molimo vas pokusajte ponovo"));
+            return "/account/login.xhtml";
         }
         return "";
     }
+
     public String logout() {
-		HttpSession session = SessionUtils.getSession();
-		session.invalidate();
-                RedirectHelper.redirect("/account/login.xhtml");
-		return "";
-	}
-    
-    
-    
-    
+        HttpSession session = SessionUtils.getSession();
+        session.invalidate();
+        RedirectHelper.redirect("/account/login.xhtml");
+        return "";
+    }
+
 }

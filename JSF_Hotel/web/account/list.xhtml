@@ -9,54 +9,54 @@
             <h1 align="center">Lista korisnika</h1>
             <hr/>
             <script src="../resources/dataTables/datatables.min.js" type="text/javascript"></script>
-            
-            
-            <h:dataTable id="korisnici" value="#{userController.vratiSveKorisnike()}" var="o"
-    			styleClass="dataTable"
-    			headerClass="order-table-header"
-    			class="col-md-12"
-    		>
 
-    			<h:column>
-    				<!-- column header -->
-    				<f:facet name="header">username</f:facet>
-    				<!-- row record -->
-    				#{o.username}
-    			</h:column>
-    			
-    			<h:column>
-    				<f:facet name="header">E-mail</f:facet>
-    				#{o.email}
-    			</h:column>
-    			
-    			<h:column>
-    				<f:facet name="header">Uloga</f:facet>
-    				#{o.uloga}
-    			</h:column>
-    			<h:column>
-    				<f:facet name="header">Akcije</f:facet>
-                                <div class="row">
-                                <h:link  outcome="/account/details.xhtml">   
-                                    <button class="btn btn-outline-info">Profil</button>
-                                    <f:param name="username" value="#{o.username}"/>
-                                 </h:link>
-                                <h:form>
-                                    <h:commandButton action="#{userController.obrisi(o.id)}" value="Obrisi" styleClass="btn btn-outline-danger"
-                                                     onclick="return confirm('Jeste li sigurni?');"/>
-                                                     
-                                </h:form>
-                                </div>
-                                
-    			</h:column>
-    			
-    		
-    		</h:dataTable>
-            
+
+            <h:dataTable id="korisnici" value="#{userController.vratiSveKorisnike()}" var="o"
+                         styleClass="dataTable"
+                         headerClass="order-table-header"
+                         class="col-md-12"
+                         >
+
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">username</f:facet>
+                    <!-- row record -->
+                    #{o.username}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">E-mail</f:facet>
+                        #{o.email}
+                </h:column>
+
+                <h:column>
+                    <f:facet name="header">Uloga</f:facet>
+                        #{o.uloga}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Akcije</f:facet>
+                    <div class="row">
+                        <h:link  outcome="/account/details.xhtml">   
+                            <button class="btn btn-outline-info">Profil</button>
+                            <f:param name="username" value="#{o.username}"/>
+                        </h:link>
+                        <h:form>
+                            <h:commandButton action="#{userController.obrisi(o.id)}" value="Obrisi" styleClass="btn btn-outline-danger"
+                                             onclick="return confirm('Jeste li sigurni?');"/>
+
+                        </h:form>
+                    </div>
+
+                </h:column>
+
+
+            </h:dataTable>
+
             <link href="../resources/dataTables/datatables.min.css" rel="stylesheet" type="text/css"/>
             <script>
-                $(document).ready( function () {
+                $(document).ready(function () {
                     $('#korisnici').DataTable();
-                } );
+                });
             </script>
 
         </ui:define>

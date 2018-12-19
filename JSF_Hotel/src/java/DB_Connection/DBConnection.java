@@ -8,18 +8,18 @@ package DB_Connection;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 /**
  *
  * @author werfawf
  */
 public class DBConnection {
-    public DBConnection()
-    {
-        
+
+    public DBConnection() {
+
     }
-    
-    public Connection connect()
-    {
+
+    public Connection connect() {
         String userName = "root";
         String password = "";
 
@@ -33,8 +33,7 @@ public class DBConnection {
             Logger.getLogger(DBConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-        
-        
+
     }
-    
+
 }

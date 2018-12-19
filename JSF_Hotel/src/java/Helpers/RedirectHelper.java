@@ -14,16 +14,16 @@ import javax.faces.context.FacesContext;
  * @author werfawf
  */
 public class RedirectHelper {
-    public static void redirect(String url)
-    {
+
+    public static void redirect(String url) {
         ExternalContext ec = FacesContext.getCurrentInstance()
-        .getExternalContext();
+                .getExternalContext();
         try {
             ec.redirect(ec.getRequestContextPath()
-            + url);
+                    + url);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-         e.printStackTrace();
-}
+            e.printStackTrace();
+        }
     }
 }
