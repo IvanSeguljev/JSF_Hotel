@@ -9,6 +9,7 @@ import DAO.UserDAO;
 import Helpers.RedirectHelper;
 import Helpers.SessionUtils;
 import Models.User;
+import java.io.Serializable;
 import java.util.ArrayList;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -23,7 +24,7 @@ import javax.faces.context.FacesContext;
  */
 @ViewScoped
 @ManagedBean(name = "userController")
-public class UserController {
+public class UserController implements Serializable {
 
     /**
      * @return the user

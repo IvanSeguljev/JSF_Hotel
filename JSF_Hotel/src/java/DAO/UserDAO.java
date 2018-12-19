@@ -7,27 +7,22 @@ package DAO;
 
 import DB_Connection.DBConnection;
 import Helpers.PasswordHelper;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import DB_Connection.IgenericDao;
 import Models.User;
 
 /**
  *
  * @author werfawf
  */
-public class UserDAO extends GenericEntity implements IgenericDao<User> {
+public class UserDAO extends GenericEntity implements IgenericDAO<User> {
 
     /*Kveriji*/
     public UserDAO() {
         this.tableName = "User";
         this.getAllQuery = "SELECT * FROM `" + tableName + "`";
-
         this.insertQuery = "INSERT INTO " + tableName + " ( `username`, `password`, `email`, `role`) VALUES (? ,? ,? ,?)";
         this.updateQuery = "UPDATE " + tableName + " SET `username`= ?,`email`= ?,`role`= ?,`poeni`=? WHERE id = ?";
         this.deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
@@ -215,6 +210,33 @@ public class UserDAO extends GenericEntity implements IgenericDao<User> {
             return null;
         }
         return null;
+    }
+    
+    public ArrayList<User> vratiSlobodneMenadzere() {
+        try {
+            conn = new DBConnection().connect();
+            String kveri = "SELECT u.username,u.id from User as u where u.id not in (SELECT h.menadzer_id from Hotel as h) and u.role = 'menadzer'";
+            PreparedStatement ps = conn.prepareStatement(kveri);
+
+            ResultSet rs = ps.executeQuery();
+
+            ArrayList<User> foundUsers = new ArrayList<User>();
+            while (rs.next()) {
+                User u = new User();
+                u.setId(rs.getInt("id"));
+                u.setUsername(rs.getString("username"));
+                
+                foundUsers.add(u);
+            }
+            conn.close();
+            return foundUsers;
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri pronalazenju slobodnih menadzera: " + ex.getMessage());
+        }
+
+        return null;
+
     }
 
 }

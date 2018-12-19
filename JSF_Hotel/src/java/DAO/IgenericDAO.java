@@ -3,15 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DB_Connection;
+package DAO;
 
 import java.util.ArrayList;
 
 /**
  *
  * @author werfawf
+ * @param <T>
  */
-public interface IgenericDao<T> {
+public interface IgenericDAO<T> {
 
     public ArrayList<T> vratiSve();
 
@@ -22,5 +23,7 @@ public interface IgenericDao<T> {
     public void obrisi(int Id);
 
     public boolean dodaj(T zaDodavanje);
+    
+    public ArrayList<T> pronadjiPoPolju(String nazivPolja, String vrednostPolja);
 
 }

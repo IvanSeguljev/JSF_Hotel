@@ -5,9 +5,7 @@
  */
 package DAO;
 
-import DB_Connection.DBConnection;
 import java.sql.Connection;
-import DB_Connection.IgenericDao;
 
 /**
  *
