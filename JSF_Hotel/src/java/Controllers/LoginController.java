@@ -103,5 +103,9 @@ public class LoginController implements Serializable {
         RedirectHelper.redirect("/account/login.xhtml");
         return "";
     }
+    public void redirectLogin()
+    {
+        RedirectHelper.redirect("/account/login.xhtml");
+    }
 
 }

@@ -8,6 +8,7 @@ package Controllers;
 
 import DAO.HotelDAO;
 import DAO.UserDAO;
+import Helpers.RedirectHelper;
 import Models.Hotel;
 import Models.User;
 import java.io.Serializable;
@@ -53,18 +54,44 @@ public class HotelController implements Serializable {
     public String dodajHotel()
     {
         HotelDAO dataAcces = new HotelDAO();
+        int sameNames = dataAcces.pronadjiPoPolju("naziv", this.hotel.getNaziv()).size();
+        int greske = 0;
+        if (sameNames != 0) {
+            greske ++;
+            FacesContext.getCurrentInstance().addMessage("dodajHotel:naziv", new FacesMessage("Hotel sa istim imenom vec postoji!"));
+        }
         boolean dodato = dataAcces.dodaj(this.hotel);
-        if (dodato) {
-           return("");
-        } else {
+        if (greske == 0 && dodato) {
+           RedirectHelper.redirect("/hoteli/lista.xhtml");
+           return "";
+        }
+        else if(!dodato)
+        {
+            FacesContext.getCurrentInstance().addMessage("dodajHotel:naziv", new FacesMessage("Doslo je do greske pri dodavanju!"));
+            return "";
+        }
+        else {
             return ("");
         }
+    }
+    
+    public ArrayList<Hotel> vratiSveHotele()
+    {
+        HotelDAO dao = new HotelDAO();
+        
+        return dao.vratiSve();
     }
     
     public ArrayList<User> vratiSlobodneMenadzere()
     {
         UserDAO dao = new UserDAO();
         return dao.vratiSlobodneMenadzere();
+    }
+    
+    public String obrisi(int Id) {
+        HotelDAO dao = new HotelDAO();
+        dao.obrisi(Id);
+        return "";
     }
     
 }

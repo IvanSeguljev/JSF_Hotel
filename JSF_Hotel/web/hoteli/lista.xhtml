@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="../layout/Layout.xhtml">
+        <ui:define name="content">
+            <h1 align="center">Lista hotela</h1>
+            <hr/>
+           
+            <script src="../resources/dataTables/datatables.min.js" type="text/javascript"></script>
+
+
+            <h:dataTable id="hoteli" value="#{hotelController.vratiSveHotele()}" var="h"
+                         styleClass="dataTable"
+                         headerClass="order-table-header"
+                         class="col-md-12"
+                         >
+
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Naziv hotela</f:facet>
+                    <!-- row record -->
+                    #{h.naziv}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Opis hotela</f:facet>
+                    <!-- row record -->
+                    #{h.opis}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Adresa hotela</f:facet>
+                    <!-- row record -->
+                    #{h.adresa}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Akcije</f:facet>
+                    <!-- row record -->
+                    <h:link  outcome="/hoteli/detalji.xhtml">   
+                        <button class="btn btn-outline-info">Detalji</button>
+                        <f:param name="naziv" value="#{h.naziv}"/>
+                    </h:link>
+                    <c:if test="${session.getAttribute('role') == 'Administrator'}">
+                          <h:form>
+                            <h:commandButton action="#{hotelController.obrisi(h.id)}" value="Obrisi" styleClass="btn btn-outline-danger"
+                                             onclick="return confirm('Jeste li sigurni?');"/>
+
+                        </h:form>
+                    </c:if>
+                </h:column>
+
+
+
+
+            </h:dataTable>
+            <c:if test="${session.getAttribute('role') == 'Administrator'}">
+                <h:link  outcome="/hoteli/dodaj.xhtml">   
+                        <button class="btn btn-outline-success">Dodaj novi hotel</button>
+                    </h:link>
+            </c:if>
+
+            <link href="../resources/dataTables/datatables.min.css" rel="stylesheet" type="text/css"/>
+            <script>
+                $(document).ready(function () {
+                    $('#hoteli').DataTable();
+                });
+            </script>
+
+        </ui:define>
+    </ui:composition>
+</html>

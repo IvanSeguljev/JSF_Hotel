@@ -8,7 +8,10 @@ package DAO;
 import DB_Connection.DBConnection;
 import Helpers.PasswordHelper;
 import Models.Hotel;
+import Models.User;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +23,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
     public HotelDAO()
     {
         this.tableName = "Hotel";
-        this.getAllQuery = "SELECT * FROM `" + tableName + "`";
+        this.getAllQuery = "SELECT id, naziv, opis, menadzer_id, adresa, telefon FROM `" + tableName + "`";
         this.insertQuery = "INSERT INTO " + tableName + " (`naziv`, `slika`, `opis`, `menadzer_id`, `adresa`, `telefon`) VALUES (?, ?, ?, ?, ?, ?)";
         this.updateQuery = "UPDATE " + tableName + " SET `naziv`= ?,`slika`= ?,`opis`= ?,`menadzer_id`=?,`adresa`=?,`telefon`=? WHERE id = ?";
         this.deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
@@ -28,7 +31,30 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
     @Override
     public ArrayList<Hotel> vratiSve() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.getAllQuery);
+
+            ResultSet rs = ps.executeQuery();
+
+            ArrayList<Hotel> foundHotels = new ArrayList<Hotel>();
+            while (rs.next()) {
+                Hotel h = new Hotel();
+                h.setId(rs.getInt("id"));
+                h.setNaziv(rs.getString("naziv"));
+                h.setOpis(rs.getString("opis"));
+                h.setMenadzer_id(rs.getInt("menadzer_id"));
+                h.setAdresa(rs.getString("adresa"));
+                h.setTelefon(rs.getString("telefon"));
+                foundHotels.add(h);
+            }
+            conn.close();
+            return foundHotels;
+            } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri vracanju svih hotela: " + ex.getMessage());
+        }
+
+        return null;
     }
 
     @Override
@@ -43,7 +69,14 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
     @Override
     public void obrisi(int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.deleteQuery);
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Doslo je do greske pri brisanju hotela: " + ex.getMessage());
+        }
     }
 
     @Override
@@ -73,7 +106,33 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
     @Override
     public ArrayList<Hotel> pronadjiPoPolju(String nazivPolja, String vrednostPolja) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            String kveri = this.getAllQuery + " WHERE " + nazivPolja + " = ?";
+            PreparedStatement ps = conn.prepareStatement(kveri);
+
+            ps.setString(1, vrednostPolja);
+            ResultSet rs = ps.executeQuery();
+
+            ArrayList<Hotel> foundHotels = new ArrayList<Hotel>();
+            while (rs.next()) {
+                Hotel h = new Hotel();
+                h.setId(rs.getInt("id"));
+                h.setNaziv(rs.getString("naziv"));
+                h.setOpis(rs.getString("opis"));
+                h.setMenadzer_id(rs.getInt("menadzer_id"));
+                h.setAdresa(rs.getString("adresa"));
+                h.setTelefon(rs.getString("telefon"));
+                foundHotels.add(h);
+            }
+            conn.close();
+            return foundHotels;
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri pronalazenju hotela: " + ex.getMessage());
+        }
+
+        return null;
     }
 
    

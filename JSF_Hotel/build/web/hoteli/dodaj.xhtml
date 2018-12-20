@@ -10,6 +10,9 @@
     </h:head>
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
+             <c:if test="${session.getAttribute('role') != 'Administrator'}">
+                ${loginController.redirectLogin()}
+            </c:if>
             <center><h1>Dodajte hotel</h1></center>
             <h:messages style="color: red;"/>
             <h:form id="dodajHotel" enctype="multipart/form-data">
@@ -40,11 +43,11 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-5" align="right"><h:outputLabel for="menadzer">Odaberite menadzera:</h:outputLabel></div>
-                    <div class="col-md-4"><h:selectOneListbox class="form-control" value="#{hotelController.hotel.menadzer_id}" id="menadzer" required="true" requiredMessage="Morate odabrati menadzera">
+                    <div class="col-md-4"><h:selectOneMenu class="form-control" value="#{hotelController.hotel.menadzer_id}" id="menadzer" required="true" requiredMessage="Morate odabrati menadzera">
                             <c:forEach items="#{hotelController.vratiSlobodneMenadzere()}" var="men">
                                 <f:selectItem itemValue="#{men.id}" itemLabel="#{men.username}"></f:selectItem>
                             </c:forEach>
-                        </h:selectOneListbox>
+                        </h:selectOneMenu>
                     </div>
                     <div class="col-md-3"></div>
                 </div>

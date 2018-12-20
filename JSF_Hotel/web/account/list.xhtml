@@ -7,6 +7,9 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
+             <c:if test="${session.getAttribute('role') != 'Administrator'}">
+                ${loginController.redirectLogin()}
+            </c:if>
             <h1 align="center">Lista korisnika</h1>
             <hr/>
             <script src="../resources/dataTables/datatables.min.js" type="text/javascript"></script>
