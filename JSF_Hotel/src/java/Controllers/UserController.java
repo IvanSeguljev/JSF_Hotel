@@ -114,6 +114,36 @@ public class UserController implements Serializable {
         }
 
     }
+    public void promote(int Id)
+    {
+        UserDAO data = new UserDAO();
+        User u = data.pronadjiPoId(Id);
+        if(u.getUloga().equals("Klijent") )
+        {
+            u.setUloga("Menadzer");
+        }
+        else
+        {
+            u.setUloga("Administrator");
+        }
+        data.izmeni(u);
+       
+    }
+    public void demote(int Id)
+    {
+        UserDAO data = new UserDAO();
+        User u = data.pronadjiPoId(Id);
+        if(u.getUloga().equals("Administrator"))
+        {
+            u.setUloga("Klijent");
+        }
+        else
+        {
+            u.setUloga("Menadzer");
+        }
+        
+       data.izmeni(u);
+    }
 
     public ArrayList<User> vratiSveKorisnike() {
         UserDAO u = new UserDAO();

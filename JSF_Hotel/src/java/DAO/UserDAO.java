@@ -93,12 +93,12 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
             conn = new DBConnection().connect();
             zaIzmenu.setPassword(PasswordHelper.getSaltedHash(zaIzmenu.getPassword()));
             PreparedStatement ps = conn.prepareStatement(this.updateQuery);
-            zaIzmenu.setUloga("Klijent");
+            
             ps.setString(1, zaIzmenu.getUsername());            
             ps.setString(2, zaIzmenu.getEmail());
             ps.setString(3, zaIzmenu.getUloga());
             ps.setInt(4, zaIzmenu.getPoeni());
-            ps.setInt(4, zaIzmenu.getId());
+            ps.setInt(5, zaIzmenu.getId());
 
             int i = ps.executeUpdate();
             conn.close();

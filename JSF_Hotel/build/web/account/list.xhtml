@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
             <h1 align="center">Lista korisnika</h1>
@@ -31,7 +32,18 @@
 
                 <h:column>
                     <f:facet name="header">Uloga</f:facet>
-                        #{o.uloga}
+                       #{o.uloga}
+                        <div class="row">
+                            
+                            <h:form>
+                                <h:commandButton action="#{userController.promote(o.id)}" value="promote"></h:commandButton>
+                            </h:form>
+                            
+                             <h:form>
+                                <h:commandButton action="#{userController.demote(o.id)}" value="demote"></h:commandButton>
+                            </h:form>
+                           
+                    </div>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Akcije</f:facet>
@@ -45,6 +57,7 @@
                                              onclick="return confirm('Jeste li sigurni?');"/>
 
                         </h:form>
+                         
                     </div>
 
                 </h:column>
