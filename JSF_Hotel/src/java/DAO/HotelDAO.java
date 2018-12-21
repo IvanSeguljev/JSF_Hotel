@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -85,7 +86,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
             conn = new DBConnection().connect();
             PreparedStatement ps = conn.prepareStatement(this.insertQuery);
             ps.setString(1, zaDodavanje.getNaziv());
-            ps.setBlob(2, zaDodavanje.getSlika().getInputStream());
+            ps.setString(2, zaDodavanje.getSlika());
             ps.setString(3, zaDodavanje.getOpis());
             ps.setInt(4, zaDodavanje.getMenadzer_id());
             ps.setString(5, zaDodavanje.getAdresa());
@@ -123,6 +124,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
                 h.setMenadzer_id(rs.getInt("menadzer_id"));
                 h.setAdresa(rs.getString("adresa"));
                 h.setTelefon(rs.getString("telefon"));
+                h.setSlika(rs.getString("slika"));
                 foundHotels.add(h);
             }
             conn.close();
@@ -135,6 +137,36 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
         return null;
     }
 
-   
+   public Hotel pronadjiPoNazivu(String naziv) {
+        try {
+            conn = new DBConnection().connect();
+            String kveri = "select * from " + this.tableName + " where naziv = ?";
+            PreparedStatement ps = conn.prepareStatement(kveri);
+
+            ps.setString(1, naziv);
+            ResultSet rs = ps.executeQuery();
+
+            
+            if (rs.next()) {
+                Hotel h = new Hotel();
+                h.setId(rs.getInt("id"));
+                h.setNaziv(rs.getString("naziv"));
+                h.setOpis(rs.getString("opis"));
+                h.setMenadzer_id(rs.getInt("menadzer_id"));
+                h.setAdresa(rs.getString("adresa"));
+                h.setTelefon(rs.getString("telefon"));
+                h.setSlika(rs.getString("slika"));
+              
+                conn.close();
+                return h;
+            }
+           
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri pronalazenju hotela po nazivu: " + ex.getMessage());
+        }
+
+        return null;
+    }
     
 }

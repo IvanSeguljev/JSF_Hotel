@@ -5,17 +5,25 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
-            <h1 align="center">Nalog korisnika</h1>
-            <hr/>
+            
+            
             <h:messages style="color: red"/>
 
             <f:metadata>
-                <f:viewParam name="username" value="${hotelController.hotel.naziv}"/>
+                <f:viewParam name="naziv" value="${hotelController.hotel.naziv}"/>
             </f:metadata>
-            
-            
+             #{hotelController.vratiPoNazivu()}
+             <h1 align="center">#{hotelController.hotel.naziv}</h1>
+             <h:graphicImage value="#{hotelController.hotel.slika}" width="100%" height="500px"/>
+             <hr/>
+             <center><i>${hotelController.hotel.opis}</i></center>
+             <hr/>
+             <br/>
+             <b>Adresa:</b>#{hotelController.hotel.adresa}<br/>
+             <b>Kontakt telefon:</b>#{hotelController.hotel.telefon}
         </ui:define>
     </ui:composition>
 </html>

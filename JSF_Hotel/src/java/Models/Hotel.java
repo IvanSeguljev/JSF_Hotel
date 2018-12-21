@@ -13,14 +13,31 @@ import javax.servlet.http.Part;
  */
 public class Hotel {
 
+    /**
+     * @return the slika
+     */
+    public String getSlika() {
+        return slika;
+    }
+
+    /**
+     * @param slika the slika to set
+     */
+    public void setSlika(String slika) {
+        this.slika = slika;
+    }
+
+    
+   
+
     private int id;
     private String naziv;
-    private Part slika;
+    private String slika;
     private String opis;
     private int menadzer_id;
     private String adresa;
     private String telefon;
-
+    
     /**
      * @return the id
      */
@@ -49,20 +66,7 @@ public class Hotel {
         this.naziv = naziv;
     }
 
-    /**
-     * @return the slika
-     */
-    public Part getSlika() {
-        return slika;
-    }
-
-    /**
-     * @param slika the slika to set
-     */
-    public void setSlika(Part slika) {
-        this.slika = slika;
-    }
-
+    
     /**
      * @return the opis
      */
