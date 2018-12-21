@@ -72,19 +72,16 @@ public class UserController implements Serializable {
 
         UserDAO userData = new UserDAO();
 
-        if (username != null) {
-            ArrayList<User> users = userData.pronadjiPoPolju("username", username);
-            if (users.size() > 0) {
-                this.user = users.get(0);
-                return this.user;
-            } else {
-
-                return null;
-            }
+        ArrayList<User> users = userData.pronadjiPoPolju("username", username);
+        if (users.size() > 0) {
+            this.user = users.get(0);
+            return this.user;
         } else {
-            RedirectHelper.redirect("");
+
+            RedirectHelper.returnError(404, "Korisnik nije nadjen");
             return null;
         }
+
     }
 
     public String izmeniKorisnika() {
@@ -114,35 +111,29 @@ public class UserController implements Serializable {
         }
 
     }
-    public void promote(int Id)
-    {
+
+    public void promote(int Id) {
         UserDAO data = new UserDAO();
         User u = data.pronadjiPoId(Id);
-        if(u.getUloga().equals("Klijent") )
-        {
+        if (u.getUloga().equals("Klijent")) {
             u.setUloga("Menadzer");
-        }
-        else
-        {
+        } else {
             u.setUloga("Administrator");
         }
         data.izmeni(u);
-       
+
     }
-    public void demote(int Id)
-    {
+
+    public void demote(int Id) {
         UserDAO data = new UserDAO();
         User u = data.pronadjiPoId(Id);
-        if(u.getUloga().equals("Administrator"))
-        {
+        if (u.getUloga().equals("Administrator")) {
             u.setUloga("Menadzer");
-        }
-        else
-        {
+        } else {
             u.setUloga("Klijent");
         }
-        
-       data.izmeni(u);
+
+        data.izmeni(u);
     }
 
     public ArrayList<User> vratiSveKorisnike() {

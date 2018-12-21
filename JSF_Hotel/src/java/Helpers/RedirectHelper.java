@@ -23,7 +23,17 @@ public class RedirectHelper {
                     + url);
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Doslo je do greske u redirect helperu, metoda: redirect" + e.getMessage());
+        }
+    }
+    public static void returnError(int status, String poruka) {
+        ExternalContext ec = FacesContext.getCurrentInstance()
+                .getExternalContext();
+        try {
+            ec.responseSendError(status, poruka);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            System.out.println("Doslo je do greske u redirect helperu, metoda: return error" + e.getMessage());
         }
     }
 }
