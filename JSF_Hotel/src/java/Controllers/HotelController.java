@@ -85,8 +85,8 @@ public class HotelController implements Serializable {
     {
        String fileName = Instant.now().toString() + slika.getSubmittedFileName();
        String folderPath = ("/home/werfawf/NetBeansProjects/Projekat_JSF_Hotel/JSF_Hotel/web/resources/images/uploads/hoteliSlike/");
-       String pathForDb = ("/resources/images/uploads/hoteliSlike/" + fileName);
-      this.hotel.setSlika(pathForDb);
+       
+      this.hotel.setSlika(fileName);
         try {
             InputStream is = slika.getInputStream();
             Files.copy(is, new File(folderPath,fileName).toPath());
@@ -95,6 +95,15 @@ public class HotelController implements Serializable {
         }
        
         
+    }
+    private void obrisiSliku(String slika)
+    {
+        String folderPath = ("/home/werfawf/NetBeansProjects/Projekat_JSF_Hotel/JSF_Hotel/web/resources/images/uploads/hoteliSlike/");
+        try {
+            Files.deleteIfExists(new File(folderPath,slika).toPath());
+        } catch (IOException ex) {
+            System.out.println("Doslo je do greske pri brisanju slike: " + ex.getMessage());
+        }
     }
     
     public String dodajHotel()
@@ -137,6 +146,8 @@ public class HotelController implements Serializable {
     
     public String obrisi(int Id) {
         HotelDAO dao = new HotelDAO();
+        String slika= dao.pronadjiPoId(Id).getSlika();
+        this.obrisiSliku(slika);
         dao.obrisi(Id);
         return "";
     }

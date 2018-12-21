@@ -135,11 +135,11 @@ public class UserController implements Serializable {
         User u = data.pronadjiPoId(Id);
         if(u.getUloga().equals("Administrator"))
         {
-            u.setUloga("Klijent");
+            u.setUloga("Menadzer");
         }
         else
         {
-            u.setUloga("Menadzer");
+            u.setUloga("Klijent");
         }
         
        data.izmeni(u);

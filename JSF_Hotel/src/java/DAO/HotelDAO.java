@@ -60,7 +60,35 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
     @Override
     public Hotel pronadjiPoId(int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            String kveri = "select * from " + this.tableName + " where id = ?";
+            PreparedStatement ps = conn.prepareStatement(kveri);
+
+            ps.setInt(1, Id);
+            ResultSet rs = ps.executeQuery();
+
+            
+            if (rs.next()) {
+                Hotel h = new Hotel();
+                h.setId(rs.getInt("id"));
+                h.setNaziv(rs.getString("naziv"));
+                h.setOpis(rs.getString("opis"));
+                h.setMenadzer_id(rs.getInt("menadzer_id"));
+                h.setAdresa(rs.getString("adresa"));
+                h.setTelefon(rs.getString("telefon"));
+                h.setSlika(rs.getString("slika"));
+              
+                conn.close();
+                return h;
+            }
+           
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri pronalazenju hotela po Id: " + ex.getMessage());
+        }
+
+        return null;
     }
 
     @Override

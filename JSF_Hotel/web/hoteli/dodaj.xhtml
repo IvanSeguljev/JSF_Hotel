@@ -25,7 +25,9 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-5" align="right"><h:outputLabel for="opis">Opis hotela:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputTextarea class="form-control" value="#{hotelController.hotel.opis}" id="opis" required="true" requiredMessage="Morate uneti opis"></h:inputTextarea></div>
+                    <div class="col-md-4"><h:inputTextarea validatorMessage="Opis hotela moze biti minimum 50 karaktera!" rows="10"  class="form-control" value="#{hotelController.hotel.opis}" id="opis" required="true" requiredMessage="Morate uneti opis">
+                            <f:validateLength minimum="50" ></f:validateLength>
+                        </h:inputTextarea></div>
                     <div class="col-md-3"></div>
                 </div>
                 <br/>
@@ -53,7 +55,7 @@
                 </div>
                 <br/>
                 <div class="row">
-                    <div class="col-md-5" align="right"><h:outputLabel for="slika">Telefon hotela:</h:outputLabel></div>
+                    <div class="col-md-5" align="right"><h:outputLabel for="slika">Slika hotela:</h:outputLabel></div>
                     <div class="col-md-4"><h:inputFile class="form-control" value="#{hotelController.slika}" id="slika" required="true" requiredMessage="Morate odabrati sliku"></h:inputFile></div>
                     <div class="col-md-3"></div>
                 </div>

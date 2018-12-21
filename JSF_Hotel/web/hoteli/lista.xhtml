@@ -27,9 +27,9 @@
                 </h:column>
                 <h:column>
                     <!-- column header -->
-                    <f:facet name="header">Opis hotela</f:facet>
+                    <f:facet name="header">Opis </f:facet>
                     <!-- row record -->
-                    #{h.opis}
+                    #{h.opis.subSequence(0, 45)}...
                 </h:column>
                 <h:column>
                     <!-- column header -->
