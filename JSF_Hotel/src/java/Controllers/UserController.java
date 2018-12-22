@@ -68,18 +68,23 @@ public class UserController implements Serializable {
         }
     }
 
-    public User showDetails(String username) {
-
+    public void showDetails(String username) {
+        if(!"Administrator".equals(SessionUtils.getUserRole()))
+            username = SessionUtils.getUserName();
+        else if(username.isEmpty())
+        {
+            RedirectHelper.returnError(404, "Korisnik nije nadjen");
+        }
         UserDAO userData = new UserDAO();
 
         ArrayList<User> users = userData.pronadjiPoPolju("username", username);
         if (users.size() > 0) {
             this.user = users.get(0);
-            return this.user;
+            
         } else {
 
             RedirectHelper.returnError(404, "Korisnik nije nadjen");
-            return null;
+           
         }
 
     }

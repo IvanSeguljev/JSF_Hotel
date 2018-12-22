@@ -24,6 +24,7 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -144,16 +145,16 @@ public class HotelController implements Serializable {
         return "";
     }
 
-    public void vratiPoNazivu() {
-        
-        if (this.hotel != null) {
+    public void vratiPoNazivu(String naziv) {
+               
+        if (!naziv.isEmpty()) {
             HotelDAO h = new HotelDAO();
-            Hotel hot = h.pronadjiPoNazivu(this.hotel.getNaziv());
+            Hotel hot = h.pronadjiPoNazivu(naziv);
             if(hot == null)
                 RedirectHelper.returnError(404, "Hotel nije nadjen");
             this.hotel = hot;
         } else {
-            RedirectHelper.returnError(404, "Hotel nije nadjen");
+            RedirectHelper.returnError(404, "Nepravilno formiran zahtev!");
         }
 
     }

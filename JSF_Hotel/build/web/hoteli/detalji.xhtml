@@ -11,10 +11,8 @@
             
             
 
-            <f:metadata>
-                <f:viewParam name="naziv" value="${hotelController.hotel.naziv}"/>
-            </f:metadata>
-             #{hotelController.vratiPoNazivu()}
+            
+             #{hotelController.vratiPoNazivu(param["naziv"])}
              <h1 align="center">#{hotelController.hotel.naziv}</h1>
              <h:graphicImage value="/resources/images/uploads/hoteliSlike/#{hotelController.hotel.slika}" width="100%" height="500px"/>
              <hr/>

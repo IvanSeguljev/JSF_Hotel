@@ -14,7 +14,7 @@
             <f:metadata>
                 <f:viewParam name="username" value="${userController.user.username}"/>
             </f:metadata>
-            ${session.getAttribute("role")=="Administrator" ? userController.setUser(userController.showDetails(userController.user.username)) : userController.setUser(userController.showDetails(session.getAttribute("username")))  }
+            ${userController.showDetails(param["username"])}
             <c:if test="${userController.user != null}">
                 <div class="row">
 
