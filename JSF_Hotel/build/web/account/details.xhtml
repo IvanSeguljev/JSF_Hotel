@@ -15,7 +15,7 @@
                 <f:viewParam name="username" value="${userController.user.username}"/>
             </f:metadata>
             ${userController.showDetails(param["username"])}
-            <c:if test="${userController.user != null}">
+            
                 <div class="row">
 
                     <div class="col-md-5" align="right"><h3>Korisnicko ime: </h3></div>
@@ -80,15 +80,14 @@
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                         <h:commandButton  class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
                                     </div>
+                                     
                                 </h:form>
                             </div>
                         </div>
                     </div>
                 </c:if>
-            </c:if>
-            <c:if test="${userController.user == null}">
-                <h1>Korisnik nije pronadjen</h1>
-            </c:if>
+            
+            
         </ui:define>
     </ui:composition>
 </html>

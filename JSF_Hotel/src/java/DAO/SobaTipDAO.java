@@ -49,7 +49,27 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
 
     @Override
     public boolean dodaj(SobaTip zaDodavanje) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.insertQuery);
+            ps.setInt(1, zaDodavanje.getHotel_Id());
+            ps.setInt(2, zaDodavanje.getKreveti());
+            ps.setString(3, zaDodavanje.getSlika());
+            ps.setInt(4, zaDodavanje.getBrojSoba());
+            ps.setInt(5, zaDodavanje.getBrojSoba());
+            ps.setString(6, zaDodavanje.getOpis());
+            
+            int i = ps.executeUpdate();
+            conn.close();
+            if (i != 0) {
+                return true;
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri dodavanju Sobe: " + ex.getMessage());
+        }
+
+        return false;
     }
 
     @Override
@@ -93,7 +113,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
             ps.setInt(1, hotelId);
             ResultSet rs = ps.executeQuery();
 
-            ArrayList<SobaTip> foundHotels = new ArrayList<SobaTip>();
+            ArrayList<SobaTip> sobe = new ArrayList<SobaTip>();
             while (rs.next()) {
                 SobaTip h = new SobaTip();
                 h.setId(rs.getInt("id"));
@@ -103,13 +123,13 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
                 h.setHotel_Id(rs.getInt("hotel_id"));
                 h.setSlika(rs.getString("slika"));
                 h.setKreveti(rs.getInt("kreveti"));
-                foundHotels.add(h);
+                sobe.add(h);
             }
             conn.close();
-            return foundHotels;
+            return sobe;
 
         } catch (Exception ex) {
-            System.out.println("Doslo je do greske pri pronalazenju hotela: " + ex.getMessage());
+            System.out.println("Doslo je do greske pri pronalazenju soba hotela: " + ex.getMessage());
         }
 
         return null;

@@ -5,28 +5,101 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-    
+
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
             <f:metadata>
                 <c:set var="hotel" value="${hotelController.vratiPoNazivu(param['naziv'])}"></c:set>
             </f:metadata>
-            
 
+
+
+            <h:messages style="color:red;"/>
+            <h1 align="center">#{hotelController.hotel.naziv}</h1>
+            <h:graphicImage value="/resources/images/uploads/hoteliSlike/#{hotelController.hotel.slika}" width="100%" height="500px"/>
+            <hr/>
+            <center><i>${hotelController.hotel.opis}</i></center>
+            <hr/>
+            <br/>
+            <b>Adresa: </b>#{hotelController.hotel.adresa}<br/>
+            <b>Kontakt telefon: </b>#{hotelController.hotel.telefon}
+            <hr/>
+            <center><h2>Sobe u ovom hotelu:</h2></center>
+            <button class="btn btn-outline-success col-md-4 offset-4" type="button" data-toggle="modal" data-target="#dodajModal">
+                Dodaj novu vrstu sobe ovom hotelu
+            </button>
+            <br/>
+            <div class="row">
+                <c:forEach items="#{sobaTipController.prikaziSobeHotela(hotel.id)}" var="s">
+                    <div class="col-md-3" style="border:1px solid gray; padding: 0; margin-top: 30px; margin-left: 6%;">
+                        <h:graphicImage value="/resources/images/uploads/sobeSlike/#{s.slika}" style="width: 100%" class="card-img-top"/>
+                        <div class="card-body" style="width: 100%">
+                                <p class="card-text">#{s.opis}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Broj kreveta: #{s.kreveti}</li>
+                                <li class="list-group-item">Broj soba u hotelu: #{s.brojSoba}</li>
+                                <li class="list-group-item">Broj soba dostupnih za iznajmljivanje: #{s.brojSlobodnih}</li>
+                            </ul>
+                            <div class="card-body">
+                                <a href="#" class="card-link">Card link</a>
+                                <a href="#" class="card-link">Another link</a>
+                            </div>
+                    </div>
+                </c:forEach>
+            </div>
+            <!-- MODALNA FORMA -->
             
-             
-             <h1 align="center">#{hotelController.hotel.naziv}</h1>
-             <h:graphicImage value="/resources/images/uploads/hoteliSlike/#{hotelController.hotel.slika}" width="100%" height="500px"/>
-             <hr/>
-             <center><i>${hotelController.hotel.opis}</i></center>
-             <hr/>
-             <br/>
-             <b>Adresa: </b>#{hotelController.hotel.adresa}<br/>
-             <b>Kontakt telefon: </b>#{hotelController.hotel.telefon}
-             
-             <c:forEach items="#{sobaTipController.prikaziSobeHotela(hotel.id)}" var="s">
-                 #{s.opis}
-             </c:forEach>
+            <div class="modal fade" id="dodajModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel" style="color: black">Dodajte novu vrstu sobe</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <h:messages style="color:red;"/>
+                        <h:form id="dodajSobuForm" enctype="multipart/form-data">
+                            <div class="modal-body">
+                                <div class="row">
+                                    ${sobaTipController.soba.hotel_Id = hotel.id}
+                                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="opis">Opis:</h:outputLabel></div>
+                                    <div class="col-md-4"><h:inputTextarea required="true" requiredMessage="Morate uneti opis!" class="form-control" value="#{sobaTipController.soba.opis}" id="opis"></h:inputTextarea></div>
+                                    <div class="col-md-3"><h:message for="opis" style="color:red;"/></div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="kreveti">Broj kreveta:</h:outputLabel></div>
+                                    <div class="col-md-4"><h:inputText converterMessage="Smete uneti samo brojeve u polje broj kreveta" class="form-control" value="#{sobaTipController.soba.kreveti}" id="kreveti"></h:inputText></div>
+                                    <div class="col-md-3"><h:message for="kreveti" style="color:red;"/></div>
+                                </div>
+                                <br/>
+                                <div class="row">
+                                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="broj">Broj soba u hotelu:</h:outputLabel></div>
+                                    <div class="col-md-4"><h:inputText  converterMessage="Smete uneti samo brojeve u polje broj kreveta" class="form-control" value="#{sobaTipController.soba.brojSoba}" id="broj"></h:inputText></div>
+                                    <div class="col-md-3"><h:message for="broj" style="color:red;"/></div>
+                                </div>
+                                <br/>
+                                <b style="color:black;">Slika sobe</b>
+                                <div class="row">
+
+                                    <div class="col-md-9"><h:inputFile onchange="document.getElementById('upload').src = window.URL.createObjectURL(this.files[0])" class="form-control" value="#{sobaTipController.slika}" id="slika" required="true" requiredMessage="Morate odabrati sliku"></h:inputFile></div>
+                                    <div class="col-md-3"><h:message for="slika" style="color:red;"/> </div>
+                                </div>
+                                <br/>
+                                <img style="max-width: 100%; max-height: 200px;" class="offset-5"  id="upload"   />
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <h:commandButton  class="btn btn-primary" action="#{sobaTipController.dodajSobu()}" value="Dodaj sobu"></h:commandButton>
+                            </div>
+                            <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                        </h:form>
+                    </div>
+                </div>
+            </div>
         </ui:define>
     </ui:composition>
 </html>
