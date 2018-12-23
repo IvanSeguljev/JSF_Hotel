@@ -112,6 +112,7 @@ public class HotelController implements Serializable {
         if (sameNames != 0) {
             greske++;
             FacesContext.getCurrentInstance().addMessage("dodajHotel:naziv", new FacesMessage("Hotel sa istim imenom vec postoji!"));
+            return "";
         }
         this.snimiSlikuHotela(this.getSlika());
         boolean dodato = dataAcces.dodaj(this.hotel);
