@@ -134,6 +134,7 @@ public class HotelController implements Serializable {
 
     public ArrayList<User> vratiSlobodneMenadzere() {
         UserDAO dao = new UserDAO();
+
         return dao.vratiSlobodneMenadzere();
     }
 
@@ -146,17 +147,41 @@ public class HotelController implements Serializable {
     }
 
     public void vratiPoNazivu(String naziv) {
-               
+
         if (!naziv.isEmpty()) {
             HotelDAO h = new HotelDAO();
             Hotel hot = h.pronadjiPoNazivu(naziv);
-            if(hot == null)
+            if (hot == null) {
                 RedirectHelper.returnError(404, "Hotel nije nadjen");
+            }
             this.hotel = hot;
         } else {
             RedirectHelper.returnError(404, "Nepravilno formiran zahtev!");
         }
 
+    }
+
+    public void izmeniHotel() {
+        HotelDAO dataAcces = new HotelDAO();
+        int sameNames = dataAcces.pronadjiPoPolju("naziv", this.hotel.getNaziv()).size();
+        Hotel h = dataAcces.pronadjiPoId(this.hotel.getId());
+        int greske = 0;
+        if (sameNames != 0 && !this.hotel.getNaziv().equals(h.getNaziv())) {
+            greske++;
+            FacesContext.getCurrentInstance().addMessage("dodajHotel:naziv", new FacesMessage("Hotel sa istim imenom vec postoji!"));
+        }
+        if (this.slika != null) {
+            this.obrisiSliku(this.hotel.getSlika());
+            this.snimiSlikuHotela(this.getSlika());
+        }
+        boolean izmenjeno = dataAcces.izmeni(this.hotel);
+        if (greske == 0 && izmenjeno) {
+            RedirectHelper.redirect("/hoteli/lista.xhtml");
+           
+        } else if (!izmenjeno) {
+            FacesContext.getCurrentInstance().addMessage("dodajHotel:naziv", new FacesMessage("Doslo je do greske pri izmeni!"));
+            
+        } 
     }
 
 }

@@ -41,17 +41,25 @@
                     <!-- column header -->
                     <f:facet name="header">Akcije</f:facet>
                     <!-- row record -->
-                    <h:link  outcome="/hoteli/detalji.xhtml">   
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <h:link  outcome="/hoteli/detalji.xhtml">   
                         <button class="btn btn-outline-info">Detalji</button>
                         <f:param name="naziv" value="#{h.naziv}"/>
                     </h:link>
-                    <c:if test="${session.getAttribute('role') == 'Administrator'}">
+  <c:if test="${session.getAttribute('role') == 'Administrator'}">
                           <h:form>
                             <h:commandButton action="#{hotelController.obrisi(h.id)}" value="Obrisi" styleClass="btn btn-outline-danger"
                                              onclick="return confirm('Jeste li sigurni?');"/>
 
                         </h:form>
+                        <h:link  outcome="/hoteli/izmeni.xhtml">   
+                        <button class="btn btn-outline-light">Izmeni</button>
+                        <f:param name="naziv" value="#{h.naziv}"/>
+                    </h:link>
                     </c:if>
+</div>
+                    
+                    
                 </h:column>
 
 

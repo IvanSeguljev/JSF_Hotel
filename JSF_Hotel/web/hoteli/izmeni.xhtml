@@ -10,9 +10,11 @@
     </h:head>
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
-             <c:if test="${session.getAttribute('role') != 'Administrator'}">
+            <c:if test="${session.getAttribute('role') != 'Administrator'}">
                 ${loginController.redirectLogin()}
+                 
             </c:if>
+           ${hotelController.vratiPoNazivu(param["naziv"])}
             <center><h1>Dodajte hotel</h1></center>
             <h:messages style="color: red;"/>
             <h:form id="dodajHotel" enctype="multipart/form-data">
@@ -46,7 +48,8 @@
                 <div class="row">
                     <div class="col-md-5" align="right"><h:outputLabel for="menadzer">Odaberite menadzera:</h:outputLabel></div>
                     <div class="col-md-4"><h:selectOneMenu class="form-control" value="#{hotelController.hotel.menadzer_id}" id="menadzer" required="true" requiredMessage="Morate odabrati menadzera">
-                            <c:forEach items="#{hotelController.vratiSlobodneMenadzere()}" var="men">
+                            <f:selectItem itemValue="${hotelController.hotel.menadzer_id}" itemLabel="Isti menadzer"></f:selectItem>
+                            <c:forEach items="${hotelController.vratiSlobodneMenadzere()}" var="men">
                                 <f:selectItem itemValue="#{men.id}" itemLabel="#{men.username}"></f:selectItem>
                             </c:forEach>
                         </h:selectOneMenu>
@@ -54,17 +57,18 @@
                     <div class="col-md-3"></div>
                 </div>
                 <br/>
+                
                 <div class="row">
-                    <div class="col-md-5" align="right"><h:outputLabel for="slika">Slika hotela:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputFile onchange="document.getElementById('upload').src = window.URL.createObjectURL(this.files[0])" class="form-control" value="#{hotelController.slika}" id="slika" required="true" requiredMessage="Morate odabrati sliku"></h:inputFile></div>
+                    <div class="col-md-5" align="right"><h:outputLabel for="slika">Slika hotela (ukoliko ne odaberete novu sliku, bice koriscena stara slika):</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputFile onchange="document.getElementById('upload').src = window.URL.createObjectURL(this.files[0])" class="form-control" value="#{hotelController.slika}" id="slika" ></h:inputFile></div>
                     <div class="col-md-3"> </div>
                 </div>
                 <br/>
                 <img style="max-width: 500px; max-height: 300px;" class="offset-5"  id="upload"   />
                 <br/>
                 <br/>
-                <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{hotelController.dodajHotel()}" value="Dodaj hotel"></h:commandButton>   
-
+                <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{hotelController.izmeniHotel()}" value="Izmeni hotel"></h:commandButton>   
+                <input type="hidden" name="naziv" value="#{param['naziv']}" />
             </h:form>
         </ui:define>
     </ui:composition>

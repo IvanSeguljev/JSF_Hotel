@@ -24,7 +24,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
     public HotelDAO()
     {
         this.tableName = "Hotel";
-        this.getAllQuery = "SELECT id, naziv, opis, menadzer_id, adresa, telefon FROM `" + tableName + "`";
+        this.getAllQuery = "SELECT * FROM `" + tableName + "`";
         this.insertQuery = "INSERT INTO " + tableName + " (`naziv`, `slika`, `opis`, `menadzer_id`, `adresa`, `telefon`) VALUES (?, ?, ?, ?, ?, ?)";
         this.updateQuery = "UPDATE " + tableName + " SET `naziv`= ?,`slika`= ?,`opis`= ?,`menadzer_id`=?,`adresa`=?,`telefon`=? WHERE id = ?";
         this.deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
@@ -93,7 +93,28 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
     @Override
     public boolean izmeni(Hotel zaIzmenu) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.updateQuery);
+            ps.setString(1, zaIzmenu.getNaziv());
+            ps.setString(2, zaIzmenu.getSlika());
+            ps.setString(3, zaIzmenu.getOpis());
+            ps.setInt(4, zaIzmenu.getMenadzer_id());
+            ps.setString(5, zaIzmenu.getAdresa());
+            ps.setString(6, zaIzmenu.getTelefon());
+            ps.setInt(7, zaIzmenu.getId());
+            
+            int i = ps.executeUpdate();
+            conn.close();
+            if (i != 0) {
+                return true;
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri dodavanju Hotela: " + ex.getMessage());
+        }
+
+        return false;
     }
 
     @Override

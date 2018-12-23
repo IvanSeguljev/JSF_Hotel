@@ -56,9 +56,11 @@
                 <br/>
                 <div class="row">
                     <div class="col-md-5" align="right"><h:outputLabel for="slika">Slika hotela:</h:outputLabel></div>
-                    <div class="col-md-4"><h:inputFile class="form-control" value="#{hotelController.slika}" id="slika" required="true" requiredMessage="Morate odabrati sliku"></h:inputFile></div>
-                    <div class="col-md-3"></div>
+                    <div class="col-md-4"><h:inputFile onchange="document.getElementById('upload').src = window.URL.createObjectURL(this.files[0])" class="form-control" value="#{hotelController.slika}" id="slika" required="true" requiredMessage="Morate odabrati sliku"></h:inputFile></div>
+                    <div class="col-md-3"> </div>
                 </div>
+                <br/>
+                <img style="max-width: 500px; max-height: 300px;" class="offset-5"  id="upload"   />
                 <br/>
                 <br/>
                 <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{hotelController.dodajHotel()}" value="Dodaj hotel"></h:commandButton>   

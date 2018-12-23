@@ -69,6 +69,8 @@ public class UserController implements Serializable {
     }
 
     public void showDetails(String username) {
+        if(SessionUtils.getSession().getAttribute("username")!= null)
+        {
         if(!"Administrator".equals(SessionUtils.getUserRole()))
             username = SessionUtils.getUserName();
         else if(username.isEmpty())
@@ -85,6 +87,11 @@ public class UserController implements Serializable {
 
             RedirectHelper.returnError(404, "Korisnik nije nadjen");
            
+        }
+        }
+        else
+        {
+            RedirectHelper.redirect("/account/login.xhtml");
         }
 
     }
