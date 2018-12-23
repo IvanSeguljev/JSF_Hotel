@@ -54,11 +54,12 @@ public class HotelController implements Serializable {
 
     private Hotel hotel;
     private Part slika;
-
+    private HotelDAO dao;
     /**
      * Creates a new instance of HotelController
      */
     public HotelController() {
+        this.dao = new HotelDAO();
     }
 
     /**
@@ -106,8 +107,7 @@ public class HotelController implements Serializable {
     }
 
     public String dodajHotel() {
-        HotelDAO dataAcces = new HotelDAO();
-        int sameNames = dataAcces.pronadjiPoPolju("naziv", this.hotel.getNaziv()).size();
+        int sameNames = this.dao.pronadjiPoPolju("naziv", this.hotel.getNaziv()).size();
         int greske = 0;
         if (sameNames != 0) {
             greske++;
@@ -115,7 +115,7 @@ public class HotelController implements Serializable {
             return "";
         }
         this.snimiSlikuHotela(this.getSlika());
-        boolean dodato = dataAcces.dodaj(this.hotel);
+        boolean dodato = this.dao.dodaj(this.hotel);
         if (greske == 0 && dodato) {
             RedirectHelper.redirect("/hoteli/lista.xhtml");
             return "";
@@ -128,44 +128,39 @@ public class HotelController implements Serializable {
     }
 
     public ArrayList<Hotel> vratiSveHotele() {
-        HotelDAO dao = new HotelDAO();
-
-        return dao.vratiSve();
+        return this.dao.vratiSve();
     }
 
     public ArrayList<User> vratiSlobodneMenadzere() {
-        UserDAO dao = new UserDAO();
-
-        return dao.vratiSlobodneMenadzere();
+        return new UserDAO().vratiSlobodneMenadzere();
     }
 
     public String obrisi(int Id) {
-        HotelDAO dao = new HotelDAO();
-        String slika = dao.pronadjiPoId(Id).getSlika();
+        String slika = this.dao.pronadjiPoId(Id).getSlika();
         this.obrisiSliku(slika);
-        dao.obrisi(Id);
+        this.dao.obrisi(Id);
         return "";
     }
 
-    public void vratiPoNazivu(String naziv) {
+    public Hotel vratiPoNazivu(String naziv) {
 
         if (!naziv.isEmpty()) {
-            HotelDAO h = new HotelDAO();
-            Hotel hot = h.pronadjiPoNazivu(naziv);
+            Hotel hot = this.dao.pronadjiPoNazivu(naziv);
             if (hot == null) {
                 RedirectHelper.returnError(404, "Hotel nije nadjen");
             }
             this.hotel = hot;
+            return hot;
         } else {
             RedirectHelper.returnError(404, "Nepravilno formiran zahtev!");
         }
+        return null;
 
     }
 
     public void izmeniHotel() {
-        HotelDAO dataAcces = new HotelDAO();
-        int sameNames = dataAcces.pronadjiPoPolju("naziv", this.hotel.getNaziv()).size();
-        Hotel h = dataAcces.pronadjiPoId(this.hotel.getId());
+        int sameNames = this.dao.pronadjiPoPolju("naziv", this.hotel.getNaziv()).size();
+        Hotel h = this.dao.pronadjiPoId(this.hotel.getId());
         int greske = 0;
         if (sameNames != 0 && !this.hotel.getNaziv().equals(h.getNaziv())) {
             greske++;
@@ -175,7 +170,7 @@ public class HotelController implements Serializable {
             this.obrisiSliku(this.hotel.getSlika());
             this.snimiSlikuHotela(this.getSlika());
         }
-        boolean izmenjeno = dataAcces.izmeni(this.hotel);
+        boolean izmenjeno = this.dao.izmeni(this.hotel);
         if (greske == 0 && izmenjeno) {
             RedirectHelper.redirect("/hoteli/lista.xhtml");
            

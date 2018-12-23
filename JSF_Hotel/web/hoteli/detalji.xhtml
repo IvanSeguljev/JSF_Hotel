@@ -8,11 +8,13 @@
     
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
-            
+            <f:metadata>
+                <c:set var="hotel" value="${hotelController.vratiPoNazivu(param['naziv'])}"></c:set>
+            </f:metadata>
             
 
             
-             #{hotelController.vratiPoNazivu(param["naziv"])}
+             
              <h1 align="center">#{hotelController.hotel.naziv}</h1>
              <h:graphicImage value="/resources/images/uploads/hoteliSlike/#{hotelController.hotel.slika}" width="100%" height="500px"/>
              <hr/>
@@ -21,6 +23,10 @@
              <br/>
              <b>Adresa: </b>#{hotelController.hotel.adresa}<br/>
              <b>Kontakt telefon: </b>#{hotelController.hotel.telefon}
+             
+             <c:forEach items="#{sobaTipController.prikaziSobeHotela(hotel.id)}" var="s">
+                 #{s.opis}
+             </c:forEach>
         </ui:define>
     </ui:composition>
 </html>
