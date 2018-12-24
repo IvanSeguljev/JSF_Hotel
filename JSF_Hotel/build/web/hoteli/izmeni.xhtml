@@ -14,7 +14,10 @@
                 ${loginController.redirectLogin()}
                  
             </c:if>
-           ${hotelController.vratiPoNazivu(param["naziv"])}
+             
+            <div style="display: none;">${hotelController.vratiPoNazivu(param['naziv'])}</div>
+            
+          
             <center><h1>Dodajte hotel</h1></center>
             <h:messages style="color: red;"/>
             <h:form id="dodajHotel" enctype="multipart/form-data">

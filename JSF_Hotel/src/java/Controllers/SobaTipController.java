@@ -113,5 +113,17 @@ public class SobaTipController implements Serializable {
             return ("");
         }
     }
+    public String obrisi()
+    {
+        Map<String, String> parameterMap = (Map<String, String>) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        int id = Integer.parseInt(parameterMap.get("id"));
+        String naziv = parameterMap.get("naziv");
+        this.soba = this.dao.pronadjiPoId(id);
+        this.obrisiSliku(this.soba.getSlika());
+        this.dao.obrisi(id);
+        RedirectHelper.redirect("/hoteli/detalji.xhtml?naziv="+naziv);
+        return "";
+    }
+    
     
 }

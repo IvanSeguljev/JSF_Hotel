@@ -10,6 +10,7 @@ import Models.Hotel;
 import Models.SobaTip;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -29,12 +30,40 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
     
     @Override
     public ArrayList<SobaTip> vratiSve() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Ni u jednom slucaju nece biti potrebno"); 
     }
 
     @Override
     public SobaTip pronadjiPoId(int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            String kveri = "select * from " + this.tableName + " where id = ?";
+            PreparedStatement ps = conn.prepareStatement(kveri);
+
+            ps.setInt(1, Id);
+            ResultSet rs = ps.executeQuery();
+
+            
+            if (rs.next()) {
+                SobaTip s = new SobaTip();
+                s.setId(rs.getInt("id"));
+                s.setBrojSlobodnih(rs.getInt("broj_slobodnih"));
+                s.setOpis(rs.getString("opis"));
+                s.setBrojSoba(rs.getInt("broj_soba"));
+                s.setHotel_Id(rs.getInt("hotel_id"));
+                s.setSlika(rs.getString("slika"));
+                s.setKreveti(rs.getInt("kreveti"));
+              
+                conn.close();
+                return s;
+            }
+           
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri pronalazenju hotela po Id: " + ex.getMessage());
+        }
+
+        return null;
     }
 
     @Override
@@ -44,7 +73,14 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
 
     @Override
     public void obrisi(int Id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.deleteQuery);
+            ps.setInt(1, Id);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Doslo je do greske pri brisanju sobe: " + ex.getMessage());
+        }
     }
 
     @Override
@@ -82,20 +118,20 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
             ps.setString(1, vrednostPolja);
             ResultSet rs = ps.executeQuery();
 
-            ArrayList<SobaTip> foundHotels = new ArrayList<SobaTip>();
+            ArrayList<SobaTip> nadjeneSobe = new ArrayList<SobaTip>();
             while (rs.next()) {
-                SobaTip h = new SobaTip();
-                h.setId(rs.getInt("id"));
-                h.setBrojSlobodnih(rs.getInt("broj_slobodnih"));
-                h.setOpis(rs.getString("opis"));
-                h.setBrojSoba(rs.getInt("broj_soba"));
-                h.setHotel_Id(rs.getInt("hotel_id"));
-                h.setSlika(rs.getString("slika"));
-                h.setKreveti(rs.getInt("kreveti"));
-                foundHotels.add(h);
+                SobaTip s = new SobaTip();
+                s.setId(rs.getInt("id"));
+                s.setBrojSlobodnih(rs.getInt("broj_slobodnih"));
+                s.setOpis(rs.getString("opis"));
+                s.setBrojSoba(rs.getInt("broj_soba"));
+                s.setHotel_Id(rs.getInt("hotel_id"));
+                s.setSlika(rs.getString("slika"));
+                s.setKreveti(rs.getInt("kreveti"));
+                nadjeneSobe.add(s);
             }
             conn.close();
-            return foundHotels;
+            return nadjeneSobe;
 
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri pronalazenju hotela: " + ex.getMessage());

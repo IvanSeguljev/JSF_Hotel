@@ -30,16 +30,7 @@ public class LoginController implements Serializable {
     /**
      * @return the loggedUsername
      */
-    public String getLoggedUsername() {
-        return loggedUsername;
-    }
-
-    /**
-     * @return the loggedRole
-     */
-    public String getLoggedRole() {
-        return loggedRole;
-    }
+    
 
     /**
      * @return the username
@@ -72,8 +63,7 @@ public class LoginController implements Serializable {
     private String username;
     private String password;
 
-    private String loggedUsername;
-    private String loggedRole;
+    
 
     public LoginController() {
     }
@@ -83,8 +73,6 @@ public class LoginController implements Serializable {
         ArrayList<String> userData = u.validiraj(username, password);
         if (userData != null) {
             HttpSession sesija = SessionUtils.getSession();
-            this.loggedRole = userData.get(1);
-            this.loggedUsername = userData.get(0);
             sesija.setAttribute("username", userData.get(0));
             sesija.setAttribute("role", userData.get(1));
 

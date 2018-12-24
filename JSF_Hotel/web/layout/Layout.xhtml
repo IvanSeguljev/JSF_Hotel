@@ -46,7 +46,7 @@
 
                             <a class="nav-link" href="/JSF_Hotel/index/kontakt.xhtml">Kontakt</a>
                         </li>
-                        <c:if test="#{loginController.loggedRole == 'Administrator'}">
+                        <c:if test="#{session.getAttribute('role') == 'Administrator'}">
                             <li class="nav-item">
                                 <a class="nav-link" href="/JSF_Hotel/account/list.xhtml">Lista korisnika</a>
                             </li>
@@ -58,12 +58,12 @@
                 <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
                     <ul class="navbar-nav ml-auto">
 
-                        <c:if test="${loginController.loggedUsername != null}">
+                        <c:if test="${session.getAttribute('role') != null}">
                             <li class="nav-item">
 
                                 <h:link value="Moj profil" outcome="/account/details.xhtml">
-                                    <c:if test="${loginController.loggedRole == 'Administrator'}">
-                                        <f:param name="username" value="#{loginController.loggedUsername}"/>
+                                    <c:if test="${session.getAttribute('role') == 'Administrator'}">
+                                        <f:param name="username" value="#{session.getAttribute('username')}"/>
                                     </c:if>
                                 </h:link>
 
@@ -74,7 +74,7 @@
                                 </h:form>
                             </li>
                         </c:if>
-                        <c:if test="${loginController.loggedUsername == null}">
+                        <c:if test="${session.getAttribute('role') == null}">
                             <li class="nav-item">
                                 <a class="nav-link" href="/JSF_Hotel/account/login.xhtml">Login</a>
                             </li>

@@ -34,22 +34,30 @@
                     <div class="col-md-3" style="border:1px solid gray; padding: 0; margin-top: 30px; margin-left: 6%;">
                         <h:graphicImage value="/resources/images/uploads/sobeSlike/#{s.slika}" style="width: 100%" class="card-img-top"/>
                         <div class="card-body" style="width: 100%">
-                                <p class="card-text">#{s.opis}</p>
-                            </div>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Broj kreveta: #{s.kreveti}</li>
-                                <li class="list-group-item">Broj soba u hotelu: #{s.brojSoba}</li>
-                                <li class="list-group-item">Broj soba dostupnih za iznajmljivanje: #{s.brojSlobodnih}</li>
-                            </ul>
-                            <div class="card-body">
-                                <a href="#" class="card-link">Card link</a>
-                                <a href="#" class="card-link">Another link</a>
-                            </div>
+                            <p class="card-text">#{s.opis}</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Broj kreveta: #{s.kreveti}</li>
+                            <li class="list-group-item">Broj soba u hotelu: #{s.brojSoba}</li>
+                            <li class="list-group-item">Broj soba dostupnih za iznajmljivanje: #{s.brojSlobodnih}</li>
+                        </ul>
+                        <div class="card-body">
+                            <h:form>
+                                <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                                <input type="hidden" value="#{s.id}" name="id"/>
+                                <h:commandButton action="#{sobaTipController.obrisi()}" value="Obrisi" class="btn btn-danger" onclick="return confirm('Jeste li sigurni?');"/>
+                            </h:form>
+                            <h:link  outcome="/sobe/iznajmi.xhtml">   
+                                <button class="btn btn-success">Iznajmi</button>
+                                <f:param name="soba" value="#{s.id}"/>
+                            </h:link>
+                            <a href="#" class="card-link">Another link</a>
+                        </div>
                     </div>
                 </c:forEach>
             </div>
             <!-- MODALNA FORMA -->
-            
+
             <div class="modal fade" id="dodajModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
