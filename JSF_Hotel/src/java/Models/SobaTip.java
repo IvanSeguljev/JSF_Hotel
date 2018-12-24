@@ -12,6 +12,20 @@ package Models;
 public class SobaTip {
 
     /**
+     * @return the Cena
+     */
+    public float getCena() {
+        return Cena;
+    }
+
+    /**
+     * @param Cena the Cena to set
+     */
+    public void setCena(float Cena) {
+        this.Cena = Cena;
+    }
+
+    /**
      * @return the Id
      */
     public int getId() {
@@ -115,4 +129,5 @@ public class SobaTip {
     private int brojSoba;
     private int brojSlobodnih;
     private String Opis;
+    private float Cena;
 }

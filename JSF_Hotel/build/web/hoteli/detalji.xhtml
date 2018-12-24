@@ -40,18 +40,26 @@
                             <li class="list-group-item">Broj kreveta: #{s.kreveti}</li>
                             <li class="list-group-item">Broj soba u hotelu: #{s.brojSoba}</li>
                             <li class="list-group-item">Broj soba dostupnih za iznajmljivanje: #{s.brojSlobodnih}</li>
+                            <li class="list-group-item">Cena iznajmljivanja po danu: #{s.cena}</li>
                         </ul>
                         <div class="card-body">
-                            <h:form>
-                                <input type="hidden" name="naziv" value="#{param['naziv']}" />
-                                <input type="hidden" value="#{s.id}" name="id"/>
-                                <h:commandButton action="#{sobaTipController.obrisi()}" value="Obrisi" class="btn btn-danger" onclick="return confirm('Jeste li sigurni?');"/>
-                            </h:form>
-                            <h:link  outcome="/sobe/iznajmi.xhtml">   
-                                <button class="btn btn-success">Iznajmi</button>
-                                <f:param name="soba" value="#{s.id}"/>
-                            </h:link>
-                            <a href="#" class="card-link">Another link</a>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <h:form>
+                                    <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                                    <input type="hidden" value="#{s.id}" name="id"/>
+                                    <h:commandButton action="#{sobaTipController.obrisi()}" value="Obrisi" class="btn btn-danger" onclick="return confirm('Jeste li sigurni?');"/>
+                                </h:form>
+
+                                <h:form>
+                                    <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                                    <input type="hidden" value="#{s.id}" name="soba"/>
+                                    <h:commandButton action="/sobe/izmeni.xhtml" value="Izmeni" class="btn btn-primary"/>
+                                </h:form>
+                                <h:link  outcome="/sobe/iznajmi.xhtml">   
+                                    <button class="btn btn-success">Iznajmi</button>
+                                    <f:param name="soba" value="#{s.id}"/>
+                                </h:link>
+                            </div>
                         </div>
                     </div>
                 </c:forEach>

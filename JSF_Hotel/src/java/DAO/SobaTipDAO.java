@@ -23,8 +23,8 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
     {
         this.tableName = "soba_tip";
         this.getAllQuery = "SELECT * FROM `" + tableName + "`";
-        this.insertQuery = "INSERT INTO " + tableName + " (`hotel_id`, `kreveti`, `slika`, `broj_soba`, `broj_slobodnih`, `opis`) VALUES (?, ?, ?, ?, ?, ?)";
-        this.updateQuery = "UPDATE " + tableName + " SET `hotel_id`= ?,`kreveti`= ?,`slika`= ?,`broj_soba`=?,`broj_slobodnih`=?,`opis`=? WHERE id = ?";
+        this.insertQuery = "INSERT INTO " + tableName + " (`hotel_id`, `kreveti`, `slika`, `broj_soba`, `broj_slobodnih`, `opis`, `cena`) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        this.updateQuery = "UPDATE " + tableName + " SET `hotel_id`= ?,`kreveti`= ?,`slika`= ?,`broj_soba`=?,`broj_slobodnih`=?,`opis`=?, `cena`=? WHERE id = ?";
         this.deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
     }
     
@@ -53,14 +53,14 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
                 s.setHotel_Id(rs.getInt("hotel_id"));
                 s.setSlika(rs.getString("slika"));
                 s.setKreveti(rs.getInt("kreveti"));
-              
+                s.setCena(rs.getFloat("cena"));
                 conn.close();
                 return s;
             }
            
 
         } catch (Exception ex) {
-            System.out.println("Doslo je do greske pri pronalazenju hotela po Id: " + ex.getMessage());
+            System.out.println("Doslo je do greske pri pronalazenju sobe po Id: " + ex.getMessage());
         }
 
         return null;
@@ -68,7 +68,29 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
 
     @Override
     public boolean izmeni(SobaTip zaIzmenu) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            conn = new DBConnection().connect();
+            PreparedStatement ps = conn.prepareStatement(this.updateQuery);
+            ps.setInt(1, zaIzmenu.getHotel_Id());
+            ps.setInt(2, zaIzmenu.getKreveti());
+            ps.setString(3, zaIzmenu.getSlika());
+            ps.setInt(4, zaIzmenu.getBrojSoba());
+            ps.setInt(5, zaIzmenu.getBrojSoba());
+            ps.setString(6, zaIzmenu.getOpis());
+            ps.setFloat(7, zaIzmenu.getCena());
+            ps.setInt(8, zaIzmenu.getId());
+            
+            int i = ps.executeUpdate();
+            conn.close();
+            if (i != 0) {
+                return true;
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri izmeni sobe: " + ex.getMessage());
+        }
+
+        return false;
     }
 
     @Override
@@ -94,7 +116,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
             ps.setInt(4, zaDodavanje.getBrojSoba());
             ps.setInt(5, zaDodavanje.getBrojSoba());
             ps.setString(6, zaDodavanje.getOpis());
-            
+            ps.setFloat(7, zaDodavanje.getCena());
             int i = ps.executeUpdate();
             conn.close();
             if (i != 0) {
@@ -128,6 +150,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
                 s.setHotel_Id(rs.getInt("hotel_id"));
                 s.setSlika(rs.getString("slika"));
                 s.setKreveti(rs.getInt("kreveti"));
+                s.setCena(rs.getFloat("cena"));
                 nadjeneSobe.add(s);
             }
             conn.close();
@@ -159,6 +182,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
                 h.setHotel_Id(rs.getInt("hotel_id"));
                 h.setSlika(rs.getString("slika"));
                 h.setKreveti(rs.getInt("kreveti"));
+                h.setCena(rs.getFloat("cena"));
                 sobe.add(h);
             }
             conn.close();

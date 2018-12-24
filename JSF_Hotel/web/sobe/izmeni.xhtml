@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+
+    </h:head>
+    <ui:composition template="../layout/Layout.xhtml">
+        <ui:define name="content">
+            ${sobaTipController.setujSobuHotela()}
+            <center><h1>Izmenite sobu</h1></center>
+            <hr/>
+            <h:messages style="color: red;"/>
+            <h:form id="dodajHotel" enctype="multipart/form-data">
+                <hr/>
+                <div class="row">
+                    <div class="col-md-5" align="right"><h:outputLabel for="opis">Opis sobe:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputTextarea class="form-control" value="#{sobaTipController.soba.opis}" id="opis" required="true" requiredMessage="Morate uneti naziv"></h:inputTextarea></div>
+                    <div class="col-md-3"><h:message for="opis" style="color:red;"/></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-5" align="right"><h:outputLabel for="kreveti">Broj kreveta:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputText class="form-control" value="#{sobaTipController.soba.kreveti}" id="kreveti" required="true" requiredMessage="Morate uneti adresu"></h:inputText></div>
+                    <div class="col-md-3"><h:message for="kreveti" style="color:red;"/></div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-5" align="right"><h:outputLabel for="brojSoba">Broj soba:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputText class="form-control" value="#{sobaTipController.soba.brojSoba}" id="brojSoba" required="true" requiredMessage="Morate uneti telefon"></h:inputText></div>
+                    <div class="col-md-3"><h:message for="brojSoba" style="color:red;"/></div>
+                </div>
+                <br/>       
+                <div class="row">
+                    <div class="col-md-5" align="right"><h:outputLabel for="cena">Cena po danu:</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputText class="form-control" value="#{sobaTipController.soba.cena}" id="cena" required="true" requiredMessage="Morate uneti telefon"></h:inputText></div>
+                    <div class="col-md-3"><h:message for="cena" style="color:red;"/></div>
+                </div>
+                <br/>       
+                <div class="row">
+                    <div class="col-md-5" align="right"><h:outputLabel for="slika">Slika hotela (ukoliko ne odaberete novu sliku, bice koriscena stara slika):</h:outputLabel></div>
+                    <div class="col-md-4"><h:inputFile onchange="document.getElementById('upload').src = window.URL.createObjectURL(this.files[0])" class="form-control" value="#{sobaTipController.slika}" id="slika" ></h:inputFile></div>
+                    <div class="col-md-3"> </div>
+                </div>
+                <br/>
+                <img style="max-width: 500px; max-height: 300px;" class="offset-5"  id="upload"   />
+                <br/>
+                <br/>
+                <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{sobaTipController.izmeniSobu()}" value="Izmeni sobu"></h:commandButton>   
+                <input type="hidden" name="soba" value="#{param['soba']}" />
+                <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

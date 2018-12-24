@@ -5,6 +5,7 @@
  */
 package Controllers;
 
+import DAO.HotelDAO;
 import DAO.SobaTipDAO;
 import Helpers.RedirectHelper;
 import Models.SobaTip;
@@ -92,6 +93,8 @@ public class SobaTipController implements Serializable {
         }
     }
     
+    
+    
     public ArrayList<SobaTip> prikaziSobeHotela(int hotelId)
     {
         return this.dao.pronadjiSobeHotela(hotelId);
@@ -123,6 +126,41 @@ public class SobaTipController implements Serializable {
         this.dao.obrisi(id);
         RedirectHelper.redirect("/hoteli/detalji.xhtml?naziv="+naziv);
         return "";
+    }
+    public void izmeniSobu() {
+       
+        Map<String, String> parameterMap = (Map<String, String>) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+       String naziv = parameterMap.get("naziv")
+        if (this.slika != null) {
+            this.obrisiSliku(this.soba.getSlika());
+            this.snimiSlikuSobe(this.getSlika());
+        }
+        boolean izmenjeno = this.dao.izmeni(this.soba);
+        if (izmenjeno) {
+            
+            RedirectHelper.redirect("/hoteli/detalji.xhtml?naziv="+naziv);
+           
+            
+        } 
+        else {
+            FacesContext.getCurrentInstance().addMessage("dodajHotel:naziv", new FacesMessage("Doslo je do greske pri izmeni!"));
+            
+        } 
+    }
+    
+    public void setujSobuHotela()
+    {
+        Map<String, String> parameterMap = (Map<String, String>) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        int id = (parameterMap.get("soba") == null) ? 0 : Integer.parseInt(parameterMap.get("soba"));
+       if(id != 0)
+       {
+        this.soba = this.dao.pronadjiPoId(id);
+        if(this.soba == null)
+            RedirectHelper.returnError(404, "Soba nije nadjena");
+       }
+       else RedirectHelper.returnError(404, "Soba nije nadjena");
+        
+        
     }
     
     
