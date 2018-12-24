@@ -20,9 +20,8 @@ import javax.servlet.http.Part;
  * @author werfawf
  */
 public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
-    
-    public HotelDAO()
-    {
+
+    public HotelDAO() {
         this.tableName = "Hotel";
         this.getAllQuery = "SELECT * FROM `" + tableName + "`";
         this.insertQuery = "INSERT INTO " + tableName + " (`naziv`, `slika`, `opis`, `menadzer_id`, `adresa`, `telefon`) VALUES (?, ?, ?, ?, ?, ?)";
@@ -49,9 +48,10 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
                 h.setTelefon(rs.getString("telefon"));
                 foundHotels.add(h);
             }
+            ps.close();
             conn.close();
             return foundHotels;
-            } catch (Exception ex) {
+        } catch (Exception ex) {
             System.out.println("Doslo je do greske pri vracanju svih hotela: " + ex.getMessage());
         }
 
@@ -68,7 +68,6 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
             ps.setInt(1, Id);
             ResultSet rs = ps.executeQuery();
 
-            
             if (rs.next()) {
                 Hotel h = new Hotel();
                 h.setId(rs.getInt("id"));
@@ -78,11 +77,10 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
                 h.setAdresa(rs.getString("adresa"));
                 h.setTelefon(rs.getString("telefon"));
                 h.setSlika(rs.getString("slika"));
-              
+                ps.close();
                 conn.close();
                 return h;
             }
-           
 
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri pronalazenju hotela po Id: " + ex.getMessage());
@@ -103,8 +101,9 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
             ps.setString(5, zaIzmenu.getAdresa());
             ps.setString(6, zaIzmenu.getTelefon());
             ps.setInt(7, zaIzmenu.getId());
-            
+
             int i = ps.executeUpdate();
+            ps.close();
             conn.close();
             if (i != 0) {
                 return true;
@@ -124,6 +123,8 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
             PreparedStatement ps = conn.prepareStatement(this.deleteQuery);
             ps.setInt(1, Id);
             ps.executeUpdate();
+            ps.close();
+            conn.close();
         } catch (SQLException ex) {
             System.out.println("Doslo je do greske pri brisanju hotela: " + ex.getMessage());
         }
@@ -131,7 +132,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
     @Override
     public boolean dodaj(Hotel zaDodavanje) {
-         try {
+        try {
             conn = new DBConnection().connect();
             PreparedStatement ps = conn.prepareStatement(this.insertQuery);
             ps.setString(1, zaDodavanje.getNaziv());
@@ -140,8 +141,9 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
             ps.setInt(4, zaDodavanje.getMenadzer_id());
             ps.setString(5, zaDodavanje.getAdresa());
             ps.setString(6, zaDodavanje.getTelefon());
-            
+
             int i = ps.executeUpdate();
+            ps.close();
             conn.close();
             if (i != 0) {
                 return true;
@@ -176,6 +178,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
                 h.setSlika(rs.getString("slika"));
                 foundHotels.add(h);
             }
+            ps.close();
             conn.close();
             return foundHotels;
 
@@ -186,7 +189,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
         return null;
     }
 
-   public Hotel pronadjiPoNazivu(String naziv) {
+    public Hotel pronadjiPoNazivu(String naziv) {
         try {
             conn = new DBConnection().connect();
             String kveri = "select * from " + this.tableName + " where naziv = ?";
@@ -195,7 +198,6 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
             ps.setString(1, naziv);
             ResultSet rs = ps.executeQuery();
 
-            
             if (rs.next()) {
                 Hotel h = new Hotel();
                 h.setId(rs.getInt("id"));
@@ -205,11 +207,11 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
                 h.setAdresa(rs.getString("adresa"));
                 h.setTelefon(rs.getString("telefon"));
                 h.setSlika(rs.getString("slika"));
-              
+
+                ps.close();
                 conn.close();
                 return h;
             }
-           
 
         } catch (Exception ex) {
             System.out.println("Doslo je do greske pri pronalazenju hotela po nazivu: " + ex.getMessage());
@@ -217,5 +219,5 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
         return null;
     }
-    
+
 }

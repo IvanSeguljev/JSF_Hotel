@@ -54,7 +54,8 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
                 s.setSlika(rs.getString("slika"));
                 s.setKreveti(rs.getInt("kreveti"));
                 s.setCena(rs.getFloat("cena"));
-                conn.close();
+                ps.close();
+            conn.close();
                 return s;
             }
            
@@ -81,6 +82,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
             ps.setInt(8, zaIzmenu.getId());
             
             int i = ps.executeUpdate();
+            ps.close();
             conn.close();
             if (i != 0) {
                 return true;
@@ -100,6 +102,8 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
             PreparedStatement ps = conn.prepareStatement(this.deleteQuery);
             ps.setInt(1, Id);
             ps.executeUpdate();
+            ps.close();
+            conn.close();
         } catch (SQLException ex) {
             System.out.println("Doslo je do greske pri brisanju sobe: " + ex.getMessage());
         }
@@ -118,6 +122,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
             ps.setString(6, zaDodavanje.getOpis());
             ps.setFloat(7, zaDodavanje.getCena());
             int i = ps.executeUpdate();
+            ps.close();
             conn.close();
             if (i != 0) {
                 return true;
@@ -153,6 +158,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
                 s.setCena(rs.getFloat("cena"));
                 nadjeneSobe.add(s);
             }
+            ps.close();
             conn.close();
             return nadjeneSobe;
 
@@ -185,6 +191,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
                 h.setCena(rs.getFloat("cena"));
                 sobe.add(h);
             }
+            ps.close();
             conn.close();
             return sobe;
 

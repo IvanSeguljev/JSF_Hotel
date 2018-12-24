@@ -46,6 +46,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
                 u.setUloga(rs.getString("role"));
                 foundUsers.add(u);
             }
+            ps.close();
             conn.close();
             return foundUsers;
 
@@ -76,6 +77,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
                 u.setPoeni(rs.getInt("poeni"));
                 foundUsers.add(u);
             }
+            ps.close();
             conn.close();
             return foundUsers;
 
@@ -93,14 +95,15 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
             conn = new DBConnection().connect();
             zaIzmenu.setPassword(PasswordHelper.getSaltedHash(zaIzmenu.getPassword()));
             PreparedStatement ps = conn.prepareStatement(this.updateQuery);
-            
-            ps.setString(1, zaIzmenu.getUsername());            
+
+            ps.setString(1, zaIzmenu.getUsername());
             ps.setString(2, zaIzmenu.getEmail());
             ps.setString(3, zaIzmenu.getUloga());
             ps.setInt(4, zaIzmenu.getPoeni());
             ps.setInt(5, zaIzmenu.getId());
 
             int i = ps.executeUpdate();
+            ps.close();
             conn.close();
             if (i != 0) {
                 return true;
@@ -120,6 +123,8 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
             PreparedStatement ps = conn.prepareStatement(this.deleteQuery);
             ps.setInt(1, Id);
             ps.executeUpdate();
+            ps.close();
+            conn.close();
         } catch (SQLException ex) {
             System.out.println("Doslo je do greske pri brisanju korisnika: " + ex.getMessage());
         }
@@ -143,6 +148,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
             ps.setString(4, zaDodavanje.getUloga());
 
             int i = ps.executeUpdate();
+            ps.close();
             conn.close();
             if (i != 0) {
                 return true;
@@ -173,6 +179,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
                 u.setEmail(rs.getString("email"));
                 u.setUloga(rs.getString("role"));
                 u.setPoeni(rs.getInt("poeni"));
+                ps.close();
                 conn.close();
                 return u;
             }
@@ -200,6 +207,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
                     userData.add(rs.getString("username"));
                     userData.add(rs.getString("role"));
 
+                    ps.close();
                     conn.close();
                     return userData;
                 }
@@ -211,7 +219,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
         }
         return null;
     }
-    
+
     public ArrayList<User> vratiSlobodneMenadzere() {
         try {
             conn = new DBConnection().connect();
@@ -225,9 +233,10 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
                 User u = new User();
                 u.setId(rs.getInt("id"));
                 u.setUsername(rs.getString("username"));
-                
+
                 foundUsers.add(u);
             }
+            ps.close();
             conn.close();
             return foundUsers;
 
