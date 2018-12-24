@@ -135,6 +135,14 @@ public class SobaTipController implements Serializable {
             this.obrisiSliku(this.soba.getSlika());
             this.snimiSlikuSobe(this.getSlika());
         }
+        SobaTip stara = this.dao.pronadjiPoId(this.soba.getId());
+        if((stara.getBrojSoba() - stara.getBrojSlobodnih() )>this.soba.getBrojSoba())
+        {
+             FacesContext.getCurrentInstance().addMessage("izmeniSobu:brojSoba", new FacesMessage("Broj soba ne moze biti manji od broja trenutno iznajmljenih soba! (" + (stara.getBrojSoba()-stara.getBrojSlobodnih()) + ")"));
+             
+        }
+        else{
+            this.soba.setBrojSlobodnih(stara.getBrojSlobodnih() + (this.soba.getBrojSoba()-stara.getBrojSoba()));
         boolean izmenjeno = this.dao.izmeni(this.soba);
         if (izmenjeno) {
             
@@ -145,7 +153,7 @@ public class SobaTipController implements Serializable {
         else {
             FacesContext.getCurrentInstance().addMessage("dodajHotel:naziv", new FacesMessage("Doslo je do greske pri izmeni!"));
             
-        } 
+        }} 
     }
     
     public void setujSobuHotela()

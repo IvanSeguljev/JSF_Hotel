@@ -48,7 +48,13 @@
                         </li>
                         <c:if test="#{session.getAttribute('role') == 'Administrator'}">
                             <li class="nav-item">
-                                <a class="nav-link" href="/JSF_Hotel/account/list.xhtml">Lista korisnika</a>
+                                <a class="nav-link" href="/JSF_Hotel/account/list.xhtml">Lista_korisnika</a>
+                            </li>
+
+                        </c:if>
+                        <c:if test="#{(session.getAttribute('role') == 'Menadzer')and(session.getAttribute('menadzer_hotela')!='nema')}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/JSF_Hotel/hoteli/detalji.xhtml?naziv=${session.getAttribute('menadzer_hotela')}">Moj_hotel</a>
                             </li>
 
                         </c:if>
@@ -69,9 +75,10 @@
 
                             </li>
                             <li class="nav-item">
-                                <h:form>
-                                    <h:commandButton class="nav-item btn btn-danger" action="#{loginController.logout()}" value="Log out"/>
-                                </h:form>
+                                <h:link  outcome="/account/logout.xhtml">
+                                    <button class="nav-item btn btn-outline-danger" onclick="return confirm('Jeste li sigurni da zelite da se odjavite?');">Logout</button>
+                                </h:link>
+                                
                             </li>
                         </c:if>
                         <c:if test="${session.getAttribute('role') == null}">

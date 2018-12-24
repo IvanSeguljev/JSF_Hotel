@@ -13,7 +13,9 @@
             </f:metadata>
 
 
-
+            <c:if test="${'Administrator'.equals(session.getAttribute('role')) or ('Menadzer'.equals(session.getAttribute('role')) and param['naziv'].equals(session.getAttribute('menadzer_hotela')))}">
+                <c:set var="management" value="${true}"></c:set>
+            </c:if>
             <h:messages style="color:red;"/>
             <h1 align="center">#{hotelController.hotel.naziv}</h1>
             <h:graphicImage value="/resources/images/uploads/hoteliSlike/#{hotelController.hotel.slika}" width="100%" height="500px"/>
@@ -25,11 +27,14 @@
             <b>Kontakt telefon: </b>#{hotelController.hotel.telefon}
             <hr/>
             <center><h2>Sobe u ovom hotelu:</h2></center>
+            <c:if test="${management == true}">
             <button class="btn btn-outline-success col-md-4 offset-4" type="button" data-toggle="modal" data-target="#dodajModal">
                 Dodaj novu vrstu sobe ovom hotelu
             </button>
+            </c:if>
             <br/>
             <div class="row">
+
                 <c:forEach items="#{sobaTipController.prikaziSobeHotela(hotel.id)}" var="s">
                     <div class="col-md-3" style="border:1px solid gray; padding: 0; margin-top: 30px; margin-left: 6%;">
                         <h:graphicImage value="/resources/images/uploads/sobeSlike/#{s.slika}" style="width: 100%" class="card-img-top"/>
@@ -44,17 +49,19 @@
                         </ul>
                         <div class="card-body">
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                <h:form>
-                                    <input type="hidden" name="naziv" value="#{param['naziv']}" />
-                                    <input type="hidden" value="#{s.id}" name="id"/>
-                                    <h:commandButton action="#{sobaTipController.obrisi()}" value="Obrisi" class="btn btn-danger" onclick="return confirm('Jeste li sigurni?');"/>
-                                </h:form>
+                                <c:if test="${management==true}">
+                                    <h:form>
+                                        <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                                        <input type="hidden" value="#{s.id}" name="id"/>
+                                        <h:commandButton action="#{sobaTipController.obrisi()}" value="Obrisi" class="btn btn-danger" onclick="return confirm('Jeste li sigurni?');"/>
+                                    </h:form>
 
-                                <h:form>
-                                    <input type="hidden" name="naziv" value="#{param['naziv']}" />
-                                    <input type="hidden" value="#{s.id}" name="soba"/>
-                                    <h:commandButton action="/sobe/izmeni.xhtml" value="Izmeni" class="btn btn-primary"/>
-                                </h:form>
+                                    <h:form>
+                                        <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                                        <input type="hidden" value="#{s.id}" name="soba"/>
+                                        <h:commandButton action="/sobe/izmeni.xhtml" value="Izmeni" class="btn btn-primary"/>
+                                    </h:form>
+                                </c:if>
                                 <h:link  outcome="/sobe/iznajmi.xhtml">   
                                     <button class="btn btn-success">Iznajmi</button>
                                     <f:param name="soba" value="#{s.id}"/>
@@ -64,6 +71,7 @@
                     </div>
                 </c:forEach>
             </div>
+            <c:if test="${management == true}">
             <!-- MODALNA FORMA -->
 
             <div class="modal fade" id="dodajModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -116,6 +124,7 @@
                     </div>
                 </div>
             </div>
+            </c:if>
         </ui:define>
     </ui:composition>
 </html>

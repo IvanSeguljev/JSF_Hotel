@@ -219,5 +219,30 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
         return null;
     }
+    
+    public String nazivHotelaZaSesiju(int menadzerId)
+    {
+        try {
+            conn = new DBConnection().connect();
+            String kveri = "select * from " + this.tableName + " where menadzer_id = ?";
+            PreparedStatement ps = conn.prepareStatement(kveri);
+
+            ps.setInt(1, menadzerId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+               
+                String naziv = rs.getString("naziv");
+                ps.close();
+                conn.close();
+                return naziv;
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Doslo je do greske pri pronalazenju hotela po nazivu: " + ex.getMessage());
+        }
+
+        return null;
+    }
 
 }

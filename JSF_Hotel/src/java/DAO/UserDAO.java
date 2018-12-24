@@ -192,7 +192,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
 
     }
 
-    public ArrayList<String> validiraj(String username, String password) {
+    public User validiraj(String username, String password) {
         try {
             conn = new DBConnection().connect();
             String kveri = this.getAllQuery + " WHERE username = ?";
@@ -203,13 +203,16 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
                 boolean tacanPass = PasswordHelper.check(password, rs.getString("password"));
 
                 if (tacanPass) {
-                    ArrayList<String> userData = new ArrayList<String>();
-                    userData.add(rs.getString("username"));
-                    userData.add(rs.getString("role"));
-
-                    ps.close();
-                    conn.close();
-                    return userData;
+                    User u = new User();
+                u.setId(rs.getInt("id"));
+                u.setUsername(rs.getString("username"));
+                u.setPassword(rs.getString("password"));
+                u.setEmail(rs.getString("email"));
+                u.setUloga(rs.getString("role"));
+                u.setPoeni(rs.getInt("poeni"));
+                ps.close();
+                conn.close();
+                    return u;
                 }
 
             }

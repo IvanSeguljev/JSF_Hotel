@@ -76,7 +76,7 @@ public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
             ps.setInt(2, zaIzmenu.getKreveti());
             ps.setString(3, zaIzmenu.getSlika());
             ps.setInt(4, zaIzmenu.getBrojSoba());
-            ps.setInt(5, zaIzmenu.getBrojSoba());
+            ps.setInt(5, zaIzmenu.getBrojSlobodnih());
             ps.setString(6, zaIzmenu.getOpis());
             ps.setFloat(7, zaIzmenu.getCena());
             ps.setInt(8, zaIzmenu.getId());

@@ -5,9 +5,11 @@
  */
 package Controllers;
 
+import DAO.HotelDAO;
 import Helpers.SessionUtils;
 import DAO.UserDAO;
 import Helpers.RedirectHelper;
+import Models.User;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -23,7 +26,7 @@ import javax.servlet.http.HttpSession;
  * @author werfawf
  */
 @Named(value = "loginController")
-@SessionScoped
+@ViewScoped
 
 public class LoginController implements Serializable {
 
@@ -70,11 +73,19 @@ public class LoginController implements Serializable {
 
     public String login() {
         UserDAO u = new UserDAO();
-        ArrayList<String> userData = u.validiraj(username, password);
-        if (userData != null) {
+        User user = u.validiraj(username, password);
+        if (user != null) {
             HttpSession sesija = SessionUtils.getSession();
-            sesija.setAttribute("username", userData.get(0));
-            sesija.setAttribute("role", userData.get(1));
+            sesija.setAttribute("username", user.getUsername());
+            sesija.setAttribute("role", user.getUloga());
+            sesija.setAttribute("uid",user.getId());
+            if("Menadzer".equals(user.getUloga()))
+            {
+                HotelDAO h = new HotelDAO();
+                String naziv = h.nazivHotelaZaSesiju(user.getId());
+                sesija.setAttribute("menadzer_hotela",(naziv == null)?"nema":naziv);
+                
+            }
 
             RedirectHelper.redirect("");
 
