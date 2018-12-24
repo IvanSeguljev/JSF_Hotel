@@ -130,7 +130,7 @@ public class SobaTipController implements Serializable {
     public void izmeniSobu() {
        
         Map<String, String> parameterMap = (Map<String, String>) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-       String naziv = parameterMap.get("naziv")
+       String naziv = parameterMap.get("naziv");
         if (this.slika != null) {
             this.obrisiSliku(this.soba.getSlika());
             this.snimiSlikuSobe(this.getSlika());
