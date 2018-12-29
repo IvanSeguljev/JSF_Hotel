@@ -10,6 +10,9 @@
     </h:head>
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
+            <c:if test="${session.getAttribute('role') == 'Klijent' or session.getAttribute('menadzer_hotela')!=param['naziv'] and session.getAttribute('role')=='Menadzer'}">
+                ${loginController.redirectLogin()}
+            </c:if>
             ${sobaTipController.setujSobuHotela()}
             <center><h1>Izmenite sobu</h1></center>
             <hr/>
@@ -54,6 +57,7 @@
                 <input type="hidden" name="naziv" value="#{param['naziv']}" />
                 
             </h:form>
+            <br/>
              <h:link outcome="/hoteli/detalji.xhtml">
                 <button class="btn btn-danger col-md-4 offset-4">Otkazi izmenu</button>
                 <f:param name="naziv" value="#{param['naziv']}"/>

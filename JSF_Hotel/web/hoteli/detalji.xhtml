@@ -37,7 +37,7 @@
 
                 <c:forEach items="#{sobaTipController.prikaziSobeHotela(hotel.id)}" var="s">
                     <div class="col-md-3" style="border:1px solid gray; padding: 0; margin-top: 30px; margin-left: 6%;">
-                        <h:graphicImage value="/resources/images/uploads/sobeSlike/#{s.slika}" style="width: 100%" class="card-img-top"/>
+                        <h:graphicImage value="/resources/images/uploads/sobeSlike/#{s.slika}" width=" 288px" height="180px"/>
                         <div class="card-body" style="width: 100%">
                             <p class="card-text">#{s.opis}</p>
                         </div>
@@ -115,6 +115,12 @@
                 </h:column>
                 <h:column>
                     <!-- column header -->
+                    <f:facet name="header">Komentar</f:facet>
+                    <!-- row record -->
+                    #{r.komentar}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
                     <f:facet name="header">status</f:facet>
                     <!-- row record -->
                     #{r.status}
@@ -183,6 +189,12 @@
                                         <div class="col-md-3"><h:message for="broj" style="color:red;"/></div>
                                     </div>
                                     <br/>
+                                    <div class="row">
+                                        <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="cenaDan">Cena po danu:</h:outputLabel></div>
+                                        <div class="col-md-4"><h:inputText  converterMessage="Smete uneti samo brojeve u cena po danu" class="form-control" value="#{sobaTipController.soba.cena}" id="cenaDan"></h:inputText></div>
+                                        <div class="col-md-3"><h:message for="cenaDan" style="color:red;"/></div>
+                                    </div>
+                                    <br/>
                                     <b style="color:black;">Slika sobe</b>
                                     <div class="row">
 
@@ -190,7 +202,7 @@
                                         <div class="col-md-3"><h:message for="slika" style="color:red;"/> </div>
                                     </div>
                                     <br/>
-                                    <img style="max-width: 100%; max-height: 200px;" class="offset-5"  id="upload"   />
+                                    <img style="max-width: 100%; max-height: 200px;"   id="upload"   />
 
                                 </div>
                                 <div class="modal-footer">

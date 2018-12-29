@@ -35,22 +35,24 @@
 
                 <h:column>
                     <f:facet name="header">Uloga</f:facet>
-                        #{o.uloga}
-                    <div class="row">
-
-
-
-                        <h:form rendered="#{!'Klijent'.equals(o.uloga)}">
-                            <h:commandButton action="#{userController.demote(o.id)}" value="demote"></h:commandButton>
-                        </h:form>
+                    <p>#{o.uloga}</p>
+                     <div align="center" class="btn-group" role="group" aria-label="Basic example">
                         <h:form rendered="#{!'Administrator'.equals(o.uloga)}">
-                            <h:commandButton action="#{userController.promote(o.id)}" value="promote"></h:commandButton>
+                            <h:commandButton action="#{userController.promote(o.id)}" value="⇧" class="btn-outline-success"></h:commandButton>
                         </h:form>
-                    </div>
+                         
+                        <h:form rendered="#{!'Klijent'.equals(o.uloga)}">
+                            <h:commandButton action="#{userController.demote(o.id)}" value="⇩" class="btn-outline-danger"></h:commandButton>
+                        </h:form>
+                     </div>
+
+
+                        
+                    
                 </h:column>
                 <h:column>
                     <f:facet name="header">Akcije</f:facet>
-                    <div class="row">
+                    <div align="center" class="btn-group" role="group" aria-label="Basic example">
                         <h:link  outcome="/account/details.xhtml">   
                             <button class="btn btn-outline-info">Profil</button>
                             <f:param name="username" value="#{o.username}"/>
@@ -60,6 +62,7 @@
                                              onclick="return confirm('Jeste li sigurni?');"/>
 
                         </h:form>
+                       
 
                     </div>
 
