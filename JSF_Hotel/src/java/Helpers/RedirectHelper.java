@@ -8,6 +8,7 @@ package Helpers;
 import java.io.IOException;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.context.Flash;
 
 /**
  *
@@ -18,6 +19,9 @@ public class RedirectHelper {
     public static void redirect(String url) {
         ExternalContext ec = FacesContext.getCurrentInstance()
                 .getExternalContext();
+        Flash f = ec.getFlash();
+        f.setKeepMessages(true);
+        
         try {
             ec.redirect(ec.getRequestContextPath()
                     + url);

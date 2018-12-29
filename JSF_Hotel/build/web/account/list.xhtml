@@ -7,7 +7,7 @@
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="../layout/Layout.xhtml">
         <ui:define name="content">
-             <c:if test="${session.getAttribute('role') != 'Administrator'}">
+            <c:if test="${session.getAttribute('role') != 'Administrator'}">
                 ${loginController.redirectLogin()}
             </c:if>
             <h1 align="center">Lista korisnika</h1>
@@ -35,17 +35,17 @@
 
                 <h:column>
                     <f:facet name="header">Uloga</f:facet>
-                       #{o.uloga}
-                        <div class="row">
-                            
-                            <h:form>
-                                <h:commandButton action="#{userController.promote(o.id)}" value="promote"></h:commandButton>
-                            </h:form>
-                            
-                             <h:form>
-                                <h:commandButton action="#{userController.demote(o.id)}" value="demote"></h:commandButton>
-                            </h:form>
-                           
+                        #{o.uloga}
+                    <div class="row">
+
+
+
+                        <h:form rendered="#{!'Klijent'.equals(o.uloga)}">
+                            <h:commandButton action="#{userController.demote(o.id)}" value="demote"></h:commandButton>
+                        </h:form>
+                        <h:form rendered="#{!'Administrator'.equals(o.uloga)}">
+                            <h:commandButton action="#{userController.promote(o.id)}" value="promote"></h:commandButton>
+                        </h:form>
                     </div>
                 </h:column>
                 <h:column>
@@ -60,7 +60,7 @@
                                              onclick="return confirm('Jeste li sigurni?');"/>
 
                         </h:form>
-                         
+
                     </div>
 
                 </h:column>

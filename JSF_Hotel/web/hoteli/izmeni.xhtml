@@ -73,6 +73,10 @@
                 <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{hotelController.izmeniHotel()}" value="Izmeni hotel"></h:commandButton>   
                 <input type="hidden" name="naziv" value="#{param['naziv']}" />
             </h:form>
+            <br/>
+            <h:link outcome="/hoteli/lista.xhtml">
+                <button class="btn btn-danger col-md-4 offset-4">Otkazi izmenu</button>
+            </h:link>
         </ui:define>
     </ui:composition>
 </html>

@@ -11,6 +11,7 @@ import Helpers.SessionUtils;
 import Models.User;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
@@ -44,42 +45,46 @@ public class UserController implements Serializable {
     }
 
     private User user;
+    private UserDAO dao;
 
     public UserController() {
-
+        this.dao = new UserDAO();
     }
 
     public String register() {
-        UserDAO dataAcces = new UserDAO();
-        int sameMails = dataAcces.pronadjiPoPolju("email", user.getEmail()).size();
-        int sameUsernames = dataAcces.pronadjiPoPolju("username", user.getUsername()).size();
+       
+        int sameMails = dao.pronadjiPoPolju("email", user.getEmail()).size();
+        int sameUsernames = dao.pronadjiPoPolju("username", user.getUsername()).size();
         if (sameUsernames != 0) {
             FacesContext.getCurrentInstance().addMessage("registerForm:name", new FacesMessage("Korisnik sa istim korisnickim imenom vec postoji!"));
         }
         if (sameMails != 0) {
             FacesContext.getCurrentInstance().addMessage("registerForm:email", new FacesMessage("Korisnik sa istom mail adresom vec postoji!"));
         }
-        boolean dodato = dataAcces.dodaj(this.user);
+        boolean dodato = dao.dodaj(this.user);
         if (dodato) {
-            FacesContext.getCurrentInstance().addMessage("login:name", new FacesMessage("Uspesno ste se registrovali! Mozete se ulogovati"));
-            return ("/account/login.xhtml?faces-redirect=true");
+            FacesContext.getCurrentInstance().addMessage("login", new FacesMessage("Uspesno ste se registrovali! Mozete se ulogovati"));
+            RedirectHelper.redirect("/account/login.xhtml");
+            return "";
+           
         } else {
             return ("");
         }
     }
 
     public void showDetails(String username) {
+       
         if(SessionUtils.getSession().getAttribute("username")!= null)
         {
         if(!"Administrator".equals(SessionUtils.getUserRole()))
             username = SessionUtils.getUserName();
         else if(username.isEmpty())
         {
-            RedirectHelper.returnError(404, "Korisnik nije nadjen");
+           username = SessionUtils.getUserName();
         }
-        UserDAO userData = new UserDAO();
+       
 
-        ArrayList<User> users = userData.pronadjiPoPolju("username", username);
+        ArrayList<User> users = dao.pronadjiPoPolju("username", username);
         if (users.size() > 0) {
             this.user = users.get(0);
             
@@ -97,10 +102,10 @@ public class UserController implements Serializable {
     }
 
     public String izmeniKorisnika() {
-        UserDAO data = new UserDAO();
-        int sameMails = data.pronadjiPoPolju("email", user.getEmail()).size();
-        int sameUsernames = data.pronadjiPoPolju("username", user.getUsername()).size();
-        User stari = data.pronadjiPoId(this.user.getId());
+        
+        int sameMails = dao.pronadjiPoPolju("email", user.getEmail()).size();
+        int sameUsernames = dao.pronadjiPoPolju("username", user.getUsername()).size();
+        User stari = dao.pronadjiPoId(this.user.getId());
         int greske = 0;
         if (sameUsernames != 0 && !stari.getUsername().equals(this.user.getUsername())) {
             greske++;
@@ -113,7 +118,7 @@ public class UserController implements Serializable {
         if (greske == 0) {
             FacesContext.getCurrentInstance().addMessage("login", new FacesMessage("Uspesno ste izmenili podatke"));
 
-            data.izmeni(this.user);
+            dao.izmeni(this.user);
             LoginController ls = new LoginController();
 
             ls.logout();
@@ -125,36 +130,36 @@ public class UserController implements Serializable {
     }
 
     public void promote(int Id) {
-        UserDAO data = new UserDAO();
-        User u = data.pronadjiPoId(Id);
+       
+        User u = dao.pronadjiPoId(Id);
         if (u.getUloga().equals("Klijent")) {
             u.setUloga("Menadzer");
         } else {
             u.setUloga("Administrator");
         }
-        data.izmeni(u);
+        dao.izmeni(u);
 
     }
 
     public void demote(int Id) {
-        UserDAO data = new UserDAO();
-        User u = data.pronadjiPoId(Id);
+        
+        User u = dao.pronadjiPoId(Id);
         if (u.getUloga().equals("Administrator")) {
             u.setUloga("Menadzer");
         } else {
             u.setUloga("Klijent");
         }
 
-        data.izmeni(u);
+        dao.izmeni(u);
     }
 
     public ArrayList<User> vratiSveKorisnike() {
-        UserDAO u = new UserDAO();
-        return u.vratiSve();
+       
+        return dao.vratiSve();
     }
 
     public String obrisi(int Id) {
-        UserDAO dao = new UserDAO();
+       
         dao.obrisi(Id);
         return "";
     }

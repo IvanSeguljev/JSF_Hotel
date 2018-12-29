@@ -66,6 +66,9 @@
                 <h:commandButton class="btn btn-primary col-md-4 offset-4" action="#{hotelController.dodajHotel()}" value="Dodaj hotel"></h:commandButton>   
 
             </h:form>
+             <h:link outcome="/hoteli/lista.xhtml">
+                <button class="btn btn-danger col-md-4 offset-4">Otkazi dodavanje</button>
+            </h:link>
         </ui:define>
     </ui:composition>
 </html>

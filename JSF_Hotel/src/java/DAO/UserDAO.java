@@ -23,7 +23,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
     public UserDAO() {
         this.tableName = "User";
         this.getAllQuery = "SELECT * FROM `" + tableName + "`";
-        this.insertQuery = "INSERT INTO " + tableName + " ( `username`, `password`, `email`, `role`) VALUES (? ,? ,? ,?)";
+        this.insertQuery = "INSERT INTO " + tableName + " ( `username`, `password`, `email`, `role`, `poeni`) VALUES (? ,? ,? ,? ,?)";
         this.updateQuery = "UPDATE " + tableName + " SET `username`= ?,`email`= ?,`role`= ?,`poeni`=? WHERE id = ?";
         this.deleteQuery = "DELETE FROM " + tableName + " WHERE id = ?";
     }
@@ -146,7 +146,7 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
             ps.setString(2, zaDodavanje.getPassword());
             ps.setString(3, zaDodavanje.getEmail());
             ps.setString(4, zaDodavanje.getUloga());
-
+            ps.setInt(5, zaDodavanje.getPoeni());
             int i = ps.executeUpdate();
             ps.close();
             conn.close();
@@ -250,5 +250,6 @@ public class UserDAO extends GenericEntity implements IgenericDAO<User> {
         return null;
 
     }
+   
 
 }

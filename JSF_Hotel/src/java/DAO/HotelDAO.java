@@ -219,9 +219,8 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
 
         return null;
     }
-    
-    public String nazivHotelaZaSesiju(int menadzerId)
-    {
+
+    public String nazivHotelaZaSesiju(int menadzerId) {
         try {
             conn = new DBConnection().connect();
             String kveri = "select * from " + this.tableName + " where menadzer_id = ?";
@@ -231,7 +230,7 @@ public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-               
+
                 String naziv = rs.getString("naziv");
                 ps.close();
                 conn.close();

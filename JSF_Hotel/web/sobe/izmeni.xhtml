@@ -54,6 +54,10 @@
                 <input type="hidden" name="naziv" value="#{param['naziv']}" />
                 
             </h:form>
+             <h:link outcome="/hoteli/detalji.xhtml">
+                <button class="btn btn-danger col-md-4 offset-4">Otkazi izmenu</button>
+                <f:param name="naziv" value="#{param['naziv']}"/>
+            </h:link>
         </ui:define>
     </ui:composition>
 </html>

@@ -28,9 +28,9 @@
             <hr/>
             <center><h2>Sobe u ovom hotelu:</h2></center>
             <c:if test="${management == true}">
-            <button class="btn btn-outline-success col-md-4 offset-4" type="button" data-toggle="modal" data-target="#dodajModal">
-                Dodaj novu vrstu sobe ovom hotelu
-            </button>
+                <button class="btn btn-outline-success col-md-4 offset-4" type="button" data-toggle="modal" data-target="#dodajModal">
+                    Dodaj novu vrstu sobe ovom hotelu
+                </button>
             </c:if>
             <br/>
             <div class="row">
@@ -62,68 +62,146 @@
                                         <h:commandButton action="/sobe/izmeni.xhtml" value="Izmeni" class="btn btn-primary"/>
                                     </h:form>
                                 </c:if>
-                                <h:link  outcome="/sobe/iznajmi.xhtml">   
-                                    <button class="btn btn-success">Iznajmi</button>
-                                    <f:param name="soba" value="#{s.id}"/>
-                                </h:link>
+                                <c:if test="${s.brojSlobodnih>0}">
+                                    <h:form>
+                                        <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                                        <input type="hidden" value="#{s.id}" name="soba"/>
+                                        <h:commandButton action="/sobe/iznajmi.xhtml" value="Iznajmi" class="btn btn-success"/>
+                                    </h:form>
+                                </c:if>
                             </div>
                         </div>
                     </div>
                 </c:forEach>
             </div>
             <c:if test="${management == true}">
-            <!-- MODALNA FORMA -->
+                <hr/>
+                <center> <h2>Lista rezervacija</h2></center>
+            <script src="../resources/dataTables/datatables.min.js" type="text/javascript"></script>
+            <h:dataTable id="rezervacije" value="#{rezervacijaController.vratiRezervacijeHotela(param['naziv'])}" var="r"
+                         styleClass="dataTable"
+                         headerClass="order-table-header"
+                         class="col-md-12"
+                         >
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Korisnik</f:facet>
+                    <!-- row record -->
+                    #{r.korisnik}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Cena</f:facet>
+                    <!-- row record -->
+                    #{r.cena}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Osvojeno poena</f:facet>
+                    <!-- row record -->
+                    #{r.poeni}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Broj dana</f:facet>
+                    <!-- row record -->
+                    #{r.ostaje_dana}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Datum dolaska</f:facet>
+                    <!-- row record -->
+                    #{r.datum_iznajmljeno}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">status</f:facet>
+                    <!-- row record -->
+                    #{r.status}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">kontrole</f:facet>
+                    <div class="btn-group" role="group" aria-label="Basic example">
 
-            <div class="modal fade" id="dodajModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel" style="color: black">Dodajte novu vrstu sobe</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <h:messages style="color:red;"/>
-                        <h:form id="dodajSobuForm" enctype="multipart/form-data">
-                            <div class="modal-body">
-                                <div class="row">
-                                    ${sobaTipController.soba.hotel_Id = hotel.id}
-                                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="opis">Opis:</h:outputLabel></div>
-                                    <div class="col-md-4"><h:inputTextarea required="true" requiredMessage="Morate uneti opis!" class="form-control" value="#{sobaTipController.soba.opis}" id="opis"></h:inputTextarea></div>
-                                    <div class="col-md-3"><h:message for="opis" style="color:red;"/></div>
-                                </div>
-                                <br/>
-                                <div class="row">
-                                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="kreveti">Broj kreveta:</h:outputLabel></div>
-                                    <div class="col-md-4"><h:inputText converterMessage="Smete uneti samo brojeve u polje broj kreveta" class="form-control" value="#{sobaTipController.soba.kreveti}" id="kreveti"></h:inputText></div>
-                                    <div class="col-md-3"><h:message for="kreveti" style="color:red;"/></div>
-                                </div>
-                                <br/>
-                                <div class="row">
-                                    <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="broj">Broj soba u hotelu:</h:outputLabel></div>
-                                    <div class="col-md-4"><h:inputText  converterMessage="Smete uneti samo brojeve u polje broj kreveta" class="form-control" value="#{sobaTipController.soba.brojSoba}" id="broj"></h:inputText></div>
-                                    <div class="col-md-3"><h:message for="broj" style="color:red;"/></div>
-                                </div>
-                                <br/>
-                                <b style="color:black;">Slika sobe</b>
-                                <div class="row">
 
-                                    <div class="col-md-9"><h:inputFile onchange="document.getElementById('upload').src = window.URL.createObjectURL(this.files[0])" class="form-control" value="#{sobaTipController.slika}" id="slika" required="true" requiredMessage="Morate odabrati sliku"></h:inputFile></div>
-                                    <div class="col-md-3"><h:message for="slika" style="color:red;"/> </div>
-                                </div>
-                                <br/>
-                                <img style="max-width: 100%; max-height: 200px;" class="offset-5"  id="upload"   />
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <h:commandButton  class="btn btn-primary" action="#{sobaTipController.dodajSobu()}" value="Dodaj sobu"></h:commandButton>
-                            </div>
+                        <h:form rendered="#{'Rezervisano'.equals(r.status)}">
                             <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                            <h:commandButton action="#{rezervacijaController.otkazi(r.id)}" value="Otkazi" styleClass="btn btn-outline-danger" 
+                                             onclick="return confirm('Jeste li sigurni da zelite da otkazete rezervaciju?');"/>
                         </h:form>
+                        <h:form rendered="#{'Rezervisano'.equals(r.status)}">
+                            <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                            <h:commandButton action="#{rezervacijaController.korisnikStigao(r.id)}" value="Stigao" styleClass="btn btn-outline-info" 
+                                             onclick="return confirm('Jeste li sigurni da je korisnik stigao?');"/>
+                        </h:form>
+                        <h:form rendered="#{'Stigao'.equals(r.status)}">
+                            <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                            <h:commandButton action="#{rezervacijaController.korisnikOtisao(r.id)}" value="Otisao" styleClass="btn btn-outline-success" 
+                                             onclick="return confirm('Jeste li sigurni da je korisnik otisao?');"/>
+                        </h:form>
+
+                    </div>
+                </h:column>
+            </h:dataTable>
+            <link href="../resources/dataTables/datatables.min.css" rel="stylesheet" type="text/css"/>
+            <script>
+                $(document).ready(function () {
+                    $('#rezervacije').DataTable();
+                });
+            </script>
+                <!-- MODALNA FORMA -->
+
+                <div class="modal fade" id="dodajModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel" style="color: black">Dodajte novu vrstu sobe</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <h:messages style="color:red;"/>
+                            <h:form id="dodajSobuForm" enctype="multipart/form-data">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        ${sobaTipController.soba.hotel_Id = hotel.id}
+                                        <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="opis">Opis:</h:outputLabel></div>
+                                        <div class="col-md-4"><h:inputTextarea required="true" requiredMessage="Morate uneti opis!" class="form-control" value="#{sobaTipController.soba.opis}" id="opis"></h:inputTextarea></div>
+                                        <div class="col-md-3"><h:message for="opis" style="color:red;"/></div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="kreveti">Broj kreveta:</h:outputLabel></div>
+                                        <div class="col-md-4"><h:inputText converterMessage="Smete uneti samo brojeve u polje broj kreveta" class="form-control" value="#{sobaTipController.soba.kreveti}" id="kreveti"></h:inputText></div>
+                                        <div class="col-md-3"><h:message for="kreveti" style="color:red;"/></div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="broj">Broj soba u hotelu:</h:outputLabel></div>
+                                        <div class="col-md-4"><h:inputText  converterMessage="Smete uneti samo brojeve u polje broj kreveta" class="form-control" value="#{sobaTipController.soba.brojSoba}" id="broj"></h:inputText></div>
+                                        <div class="col-md-3"><h:message for="broj" style="color:red;"/></div>
+                                    </div>
+                                    <br/>
+                                    <b style="color:black;">Slika sobe</b>
+                                    <div class="row">
+
+                                        <div class="col-md-9"><h:inputFile onchange="document.getElementById('upload').src = window.URL.createObjectURL(this.files[0])" class="form-control" value="#{sobaTipController.slika}" id="slika" required="true" requiredMessage="Morate odabrati sliku"></h:inputFile></div>
+                                        <div class="col-md-3"><h:message for="slika" style="color:red;"/> </div>
+                                    </div>
+                                    <br/>
+                                    <img style="max-width: 100%; max-height: 200px;" class="offset-5"  id="upload"   />
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <h:commandButton  class="btn btn-primary" action="#{sobaTipController.dodajSobu()}" value="Dodaj sobu"></h:commandButton>
+                                </div>
+                                <input type="hidden" name="naziv" value="#{param['naziv']}" />
+                            </h:form>
+                        </div>
                     </div>
                 </div>
-            </div>
             </c:if>
         </ui:define>
     </ui:composition>

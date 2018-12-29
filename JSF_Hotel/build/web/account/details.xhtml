@@ -15,79 +15,142 @@
                 <f:viewParam name="username" value="${userController.user.username}"/>
             </f:metadata>
             ${userController.showDetails(param["username"])}
-            
-                <div class="row">
 
-                    <div class="col-md-5" align="right"><h3>Korisnicko ime: </h3></div>
-                    <div class="col-md-4"><h3>${userController.user.username}</h3></div>
-                    <div class="col-md-3"></div>
-                </div>
-                <br/>
-                <div class="row">
+            <div class="row">
 
-                    <div class="col-md-5" align="right"><h3>Email: </h3></div>
-                    <div class="col-md-4"><h3>${userController.user.email}</h3></div>
-                    <div class="col-md-3"></div>
-                </div>
-                <br/>
-                <div class="row">
+                <div class="col-md-5" align="right"><h3>Korisnicko ime: </h3></div>
+                <div class="col-md-4"><h3>${userController.user.username}</h3></div>
+                <div class="col-md-3"></div>
+            </div>
+            <br/>
+            <div class="row">
 
-                    <div class="col-md-5" align="right"><h3>Uloga: </h3></div>
-                    <div class="col-md-4"><h3>${userController.user.uloga}</h3></div>
-                    <div class="col-md-3"></div>
-                </div>
-                <br/>
-                <div class="row">
+                <div class="col-md-5" align="right"><h3>Email: </h3></div>
+                <div class="col-md-4"><h3>${userController.user.email}</h3></div>
+                <div class="col-md-3"></div>
+            </div>
+            <br/>
+            <div class="row">
 
-                    <div class="col-md-5" align="right"><h3>Dosadasnji poeni: </h3></div>
-                    <div class="col-md-4"><h3>${userController.user.poeni}</h3></div>
-                    <div class="col-md-3"></div>
-                </div>
-                <br/>
+                <div class="col-md-5" align="right"><h3>Uloga: </h3></div>
+                <div class="col-md-4"><h3>${userController.user.uloga}</h3></div>
+                <div class="col-md-3"></div>
+            </div>
+            <br/>
+            <div class="row">
 
-                <c:if test="${session.getAttribute('username')==userController.user.username or session.getAttribute('role')!='Administrator'}">
-                    <button class="btn btn-primary col-md-4 offset-4" type="button" data-toggle="modal" data-target="#exampleModal">
-                        Izmeni korisnicke podatke
-                    </button>
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel" style="color: black">Izmenite svoje podatke</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <h:form id="changeForm">
-                                    <div class="modal-body">
-                                        <div class="row">
+                <div class="col-md-5" align="right"><h3>Dosadasnji poeni: </h3></div>
+                <div class="col-md-4"><h3>${userController.user.poeni}</h3></div>
+                <div class="col-md-3"></div>
+            </div>
+            <br/>
+            <h2>Lista rezervacija:</h2>
+            <script src="../resources/dataTables/datatables.min.js" type="text/javascript"></script>
+            <h:dataTable id="rezervacije" value="#{rezervacijaController.vratiRezervacijeKorisnika(userController.user.id)}" var="r"
+                         styleClass="dataTable"
+                         headerClass="order-table-header"
+                         class="col-md-12"
+                         >
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Hotel</f:facet>
+                    <!-- row record -->
+                    #{r.hotel}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Cena</f:facet>
+                    <!-- row record -->
+                    #{r.cena}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Osvojeno poena</f:facet>
+                    <!-- row record -->
+                    #{r.poeni}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Broj dana</f:facet>
+                    <!-- row record -->
+                    #{r.ostaje_dana}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">Datum dolaska</f:facet>
+                    <!-- row record -->
+                    #{r.datum_iznajmljeno}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">status</f:facet>
+                    <!-- row record -->
+                    #{r.status}
+                </h:column>
+                <h:column>
+                    <!-- column header -->
+                    <f:facet name="header">kontrole</f:facet>
+                    <div class="btn-group" role="group" aria-label="Basic example">
 
-                                            <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="name">novo korisnicko ime:</h:outputLabel></div>
-                                            <div class="col-md-4"><h:inputText class="form-control" value="#{userController.user.username}" id="name"></h:inputText></div>
-                                            <div class="col-md-3"></div>
-                                        </div>
-                                        <br/>
-                                        <div class="row">
-                                            <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="email">nova e-mail adresa:</h:outputLabel></div>
-                                            <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{userController.user.email}"  id="email"
-                                                                               required="true">
-                                                    <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
-                                                </h:inputText></div>
-                                            <div class="col-md-3"></div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <h:commandButton  class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
-                                    </div>
-                                     
-                                </h:form>
+
+                        <h:form rendered="#{'Rezervisano'.equals(r.status)}">
+                            <h:commandButton action="#{rezervacijaController.otkazi(r.id)}" value="Otkazi" styleClass="btn btn-outline-danger" 
+                                             onclick="return confirm('Jeste li sigurni da zelite da otkazete rezervaciju?');"/>
+                        </h:form>
+
+                    </div>
+                </h:column>
+
+            </h:dataTable>
+            <link href="../resources/dataTables/datatables.min.css" rel="stylesheet" type="text/css"/>
+            <script>
+                $(document).ready(function () {
+                    $('#rezervacije').DataTable();
+                });
+            </script>
+            <c:if test="${session.getAttribute('username').equals(userController.user.username) or !session.getAttribute('role').equals('Administrator')}">
+                <button class="btn btn-primary col-md-4 offset-4" type="button" data-toggle="modal" data-target="#exampleModal">
+                    Izmeni korisnicke podatke
+                </button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel" style="color: black">Izmenite svoje podatke</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
                             </div>
+                            <h:form id="changeForm">
+                                <div class="modal-body">
+                                    <div class="row">
+
+                                        <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="name">novo korisnicko ime:</h:outputLabel></div>
+                                        <div class="col-md-4"><h:inputText class="form-control" value="#{userController.user.username}" id="name"></h:inputText></div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-5" align="right"><h:outputLabel  style="color: black;" for="email">nova e-mail adresa:</h:outputLabel></div>
+                                        <div class="col-md-4"><h:inputText requiredMessage="Molimo vas, unesite e-mail"  validatorMessage="Morate uneti dobru e-mail adresu!" class="form-control" value="#{userController.user.email}"  id="email"
+                                                                           required="true">
+                                                <f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"></f:validateRegex>
+                                            </h:inputText></div>
+                                        <div class="col-md-3"></div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <h:commandButton  class="btn btn-primary" action="#{userController.izmeniKorisnika()}" value="Izmeni podatke"></h:commandButton>
+                                </div>
+
+                            </h:form>
                         </div>
                     </div>
-                </c:if>
-            
-            
+                </div>
+            </c:if>
+
+
         </ui:define>
     </ui:composition>
 </html>
