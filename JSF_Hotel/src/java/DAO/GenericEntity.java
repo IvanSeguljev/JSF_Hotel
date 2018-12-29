@@ -11,7 +11,7 @@ import java.sql.Connection;
  *
  * @author werfawf
  */
-public abstract class GenericEntity  {
+public abstract class GenericEntity<T> implements IgenericDAO<T>  {
     protected String tableName;
     protected Connection conn;
     protected String getAllQuery;   

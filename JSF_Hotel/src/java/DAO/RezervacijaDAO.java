@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author werfawf
  */
-public class RezervacijaDAO extends GenericEntity implements IgenericDAO<Rezervacija> {
+public class RezervacijaDAO extends GenericEntity<Rezervacija> {
 
     public RezervacijaDAO() {
         this.tableName = "korisnik_iznajmio";

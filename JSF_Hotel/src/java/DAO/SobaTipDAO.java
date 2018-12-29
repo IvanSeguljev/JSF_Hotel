@@ -17,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author werfawf
  */
-public class SobaTipDAO extends GenericEntity implements IgenericDAO<SobaTip> {
+public class SobaTipDAO extends GenericEntity<SobaTip> {
 
     public SobaTipDAO()
     {

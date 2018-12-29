@@ -19,7 +19,7 @@ import javax.servlet.http.Part;
  *
  * @author werfawf
  */
-public class HotelDAO extends GenericEntity implements IgenericDAO<Hotel> {
+public class HotelDAO extends GenericEntity<Hotel> {
 
     public HotelDAO() {
         this.tableName = "Hotel";

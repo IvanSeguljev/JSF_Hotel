@@ -17,7 +17,7 @@ import Models.User;
  *
  * @author werfawf
  */
-public class UserDAO extends GenericEntity implements IgenericDAO<User> {
+public class UserDAO extends GenericEntity<User> {
 
     /*Kveriji*/
     public UserDAO() {
